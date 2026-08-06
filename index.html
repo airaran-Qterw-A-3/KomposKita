@@ -435,6 +435,39 @@ body{
   cursor:pointer;transition:transform 0.2s;margin-top:8px;
 }
 .btn-beli:active{transform:scale(0.96);}
+
+/* ===== LAPAK DROPDOWN ===== */
+.lapak-dropdown{
+  position:absolute;left:16px;right:16px;
+  background:#fff;border-radius:12px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  z-index:50;display:none;overflow:hidden;
+  max-height:200px;overflow-y:auto;
+}
+.lapak-dropdown.show{display:block;}
+.lapak-dropdown-item{
+  padding:12px 16px;cursor:pointer;
+  font-size:14px;font-weight:600;color:var(--text);
+  border-bottom:1px solid #eee;
+}
+.lapak-dropdown-item:last-child{border-bottom:none;}
+.lapak-dropdown-item:active{background:var(--card2);}
+.lapak-dropdown-item .lapak-dist{font-size:12px;color:var(--textsub);font-weight:400;}
+
+/* ===== LAPAK DETAIL ===== */
+.lapak-info{margin-top:10px;}
+.lapak-info p{font-size:13px;color:var(--textsub);line-height:1.6;font-weight:600;margin-bottom:6px;}
+.lapak-info strong{color:var(--text);}
+
+/* ===== TUKAR CARD ===== */
+.tukar-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.tukar-card:active{transform:scale(0.97);}
+.tukar-card.selected{border-color:var(--green1);}
+
+/* ===== LAPAK CARD ===== */
+.lapak-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.lapak-card:active{transform:scale(0.97);}
+.lapak-card.selected{border-color:var(--green1);}
 </style>
 </head>
 <body>
@@ -657,7 +690,7 @@ body{
         <text x="28" y="52" fill="#fff" font-size="16" font-weight="bold">♻</text>
       </svg>
     </div>
-    <div class="page-title">AYO KIRIM SAMPAH HIJAU ANDA!</div>
+    <div class="page-title">AYO KIRIM SAMPAH ORGANIK ANDA!</div>
   </div>
   <div class="form-section">
     <div class="form-card">
@@ -699,11 +732,12 @@ body{
       </div>
     </div>
 
-    <div class="form-card">
+    <div class="form-card" style="position:relative;">
       <h3>Lapak KomposKita yang dituju:</h3>
       <div class="form-group" style="margin-top:10px;">
-        <input type="text" placeholder="" id="lapak-tujuan">
+        <input type="text" placeholder="Ketik nama lapak..." id="lapak-tujuan" oninput="filterLapak()" onfocus="filterLapak()">
       </div>
+      <div class="lapak-dropdown" id="lapak-dropdown"></div>
     </div>
 
     <div style="padding:0 0 4px;">
@@ -711,7 +745,7 @@ body{
     </div>
     <div class="ongkos-row">
       <div class="ongkos-display" id="ongkos-display">-</div>
-      <button class="btn-kirim" onclick="showKirimModal()">Kirim!</button>
+      <button class="btn-kirim" onclick="kirimSampah()">Kirim!</button>
     </div>
   </div>
 </div>
@@ -733,8 +767,8 @@ body{
     </div>
     <div class="page-title">LAPAK KOMPOSKITA TERDEKAT</div>
   </div>
-  <div class="card-list">
-    <div class="info-card">
+  <div class="card-list" id="lapak-list">
+    <div class="info-card lapak-card" onclick="showLapakDetail('goalpara')" data-lapak="goalpara">
       <div class="card-icon">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="40" width="50" height="45" rx="4" fill="#000"/>
@@ -744,10 +778,10 @@ body{
       </div>
       <div class="card-body">
         <h3>Goalpara KomposKita</h3>
-        <p>1 km<br>Ready: trade plant waste, buy compost, pick up</p>
+        <p>1 km<br>Ready: tukar limbah tanaman, beli kompos, jemput</p>
       </div>
     </div>
-    <div class="info-card">
+    <div class="info-card lapak-card" onclick="showLapakDetail('selabintana')" data-lapak="selabintana">
       <div class="card-icon">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="40" width="50" height="45" rx="4" fill="#000"/>
@@ -757,8 +791,16 @@ body{
       </div>
       <div class="card-body">
         <h3>Selabintana KomposKita</h3>
-        <p>2 km<br>Ready: trade plant waste, buy compost</p>
+        <p>2 km<br>Ready: tukar limbah tanaman, beli kompos</p>
       </div>
+    </div>
+  </div>
+
+  <div class="lapak-detail" id="lapak-detail" style="display:none;padding:0 16px 16px;">
+    <div class="form-card">
+      <h3 id="lapak-detail-name">Goalpara KomposKita</h3>
+      <div class="lapak-info" id="lapak-detail-info"></div>
+      <button class="btn-beli" onclick="closeLapakDetail()" style="margin-top:12px;">Tutup</button>
     </div>
   </div>
 </div>
@@ -781,8 +823,8 @@ body{
     </div>
     <div class="page-title">TUKAR SAMPAH ORGANIK</div>
   </div>
-  <div class="card-list">
-    <div class="info-card">
+  <div class="card-list" id="tukar-list">
+    <div class="info-card tukar-card" onclick="selectSampah('hijau')" data-sampah="hijau">
       <div class="card-icon">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
@@ -798,7 +840,7 @@ body{
         <p>Rp2.000/kg<br><span class="arrow">→</span> Harga lapak terdekat: KomposKita Goalpara</p>
       </div>
     </div>
-    <div class="info-card">
+    <div class="info-card tukar-card" onclick="selectSampah('coklat')" data-sampah="coklat">
       <div class="card-icon">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
@@ -813,6 +855,38 @@ body{
         <h3>Sampah coklat (kering)</h3>
         <p>Rp3.000/kg<br><span class="arrow">→</span> Harga lapak terdekat: KomposKita Goalpara</p>
       </div>
+    </div>
+  </div>
+
+  <div class="tukar-form" id="tukar-form" style="display:none;padding:0 16px 16px;">
+    <div class="form-card">
+      <h3 id="tukar-title">Sampah Hijau</h3>
+      <div class="sub" id="tukar-sub">Pilih berapa kg sampah yang ingin ditukar</div>
+
+      <div class="form-group">
+        <label>Jumlah (kg)</label>
+        <input type="number" id="tukar-jumlah" value="1" min="0.5" step="0.5" oninput="updateTukar()">
+      </div>
+
+      <div class="form-group">
+        <label>Tukar dengan</label>
+        <div class="slider-labels">
+          <span>Uang penuh</span>
+          <span>Campuran</span>
+          <span>Kompos/POC penuh</span>
+        </div>
+        <input type="range" id="tukar-slider" min="0" max="100" value="0" oninput="updateTukar()" class="beli-slider">
+        <div class="slider-desc" id="tukar-slider-desc">Tukar sepenuhnya dengan uang</div>
+      </div>
+
+      <div class="form-group">
+        <label>Ringkasan Penukaran</label>
+        <div class="ringkasan-box" id="tukar-ringkasan">
+          <p id="tukar-ringkasan-text"></p>
+        </div>
+      </div>
+
+      <button class="btn-beli" onclick="tukarSampah()">Tukar</button>
     </div>
   </div>
 </div>
@@ -901,7 +975,25 @@ const produkData={
   'poc':{name:'Pupuk Organik Cair (POC)',harga:20000,waste:2,unit:'L',asal:'KomposKita Goalpara'}
 };
 
+const lapakData=[
+  {id:'goalpara',name:'Goalpara KomposKita',dist:'1 km',addr:'Jl. Raya Goalpara No. 45, Kec. Ciampea, Kab. Bogor',cp:'+62 812-9876-1234',layanan:'Tukar limbah tanaman, Beli kompos, Jemput sampah'},
+  {id:'selabintana',name:'Selabintana KomposKita',dist:'2 km',addr:'Jl. Selabintana No. 12, Kec. Ciampea, Kab. Bogor',cp:'+62 813-4567-8901',layanan:'Tukar limbah tanaman, Beli kompos'}
+];
+
+const ongkirTarif={
+  'motor':{1:2000,2:3000},
+  'mobil':{1:3000,2:4000}
+};
+
+const sampahData={
+  'hijau':{name:'Sampah Hijau',harga:2000,rasio:2},
+  'coklat':{name:'Sampah Coklat (kering)',harga:3000,rasio:3}
+};
+
 let selectedProduct=null;
+let selectedSampah=null;
+let selectedVehicle='motor';
+let selectedLapak=null;
 
 function navTo(nav){
   currentPage=nav;
@@ -916,17 +1008,75 @@ function navigateTo(pageId){
   document.getElementById(pageId).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(pageId==='page-beli') resetBeliForm();
+  if(pageId==='page-tukar') resetTukarForm();
+  if(pageId==='page-kirim') resetKirimForm();
 }
 
 function toggleCheck(el){
   el.classList.toggle('checked');
 }
 
+/* ===== KIRIM SAMPAH ===== */
 function selectVehicle(el,type){
+  selectedVehicle=type;
   document.querySelectorAll('.vehicle-option').forEach(v=>v.classList.remove('selected'));
   el.classList.add('selected');
+  updateOngkir();
 }
 
+function filterLapak(){
+  const val=document.getElementById('lapak-tujuan').value.toLowerCase();
+  const dd=document.getElementById('lapak-dropdown');
+  const filtered=lapakData.filter(l=>l.name.toLowerCase().includes(val));
+  if(val.length===0||filtered.length===0){dd.classList.remove('show');return;}
+  dd.innerHTML=filtered.map(l=>`<div class="lapak-dropdown-item" onclick="pilihLapak('${l.id}')">${l.name}<div class="lapak-dist">${l.dist}</div></div>`).join('');
+  dd.classList.add('show');
+}
+
+function pilihLapak(id){
+  const l=lapakData.find(x=>x.id===id);
+  selectedLapak=l;
+  document.getElementById('lapak-tujuan').value=l.name;
+  document.getElementById('lapak-dropdown').classList.remove('show');
+  updateOngkir();
+}
+
+function updateOngkir(){
+  if(!selectedLapak)return;
+  const distNum=parseInt(selectedLapak.dist);
+  const tarif=ongkirTarif[selectedVehicle][distNum];
+  document.getElementById('ongkos-display').textContent=tarif?'Rp'+tarif.toLocaleString('id-ID'):'-';
+}
+
+function kirimSampah(){
+  const alamat=document.getElementById('alamat').value.trim();
+  if(!selectedLapak||!alamat){
+    document.getElementById('modal-title').textContent='Peringatan';
+    document.getElementById('modal-msg').textContent='Harap isi alamat penjemputan dan pilih lapak tujuan.';
+    document.getElementById('modal').classList.add('show');
+    return;
+  }
+  const distNum=parseInt(selectedLapak.dist);
+  const tarif=ongkirTarif[selectedVehicle][distNum];
+  const vName=selectedVehicle==='motor'?'Motor':'Mobil pick-up';
+
+  let detail=`Kendaraan: ${vName}<br>Alamat: ${alamat}<br>Lapak tujuan: ${selectedLapak.name}<br>Jarak: ${selectedLapak.dist}`;
+  if(tarif) detail+=`<br>Ongkos: Rp${tarif.toLocaleString('id-ID')}`;
+
+  addAktivitas('Pengiriman Sampah',detail);
+  resetKirimForm();
+  navTo('beranda');
+}
+
+function resetKirimForm(){
+  selectedLapak=null;
+  document.getElementById('alamat').value='';
+  document.getElementById('lapak-tujuan').value='';
+  document.getElementById('ongkos-display').textContent='-';
+  document.getElementById('lapak-dropdown').classList.remove('show');
+}
+
+/* ===== BELI KOMPOS ===== */
 function selectProduct(product){
   selectedProduct=product;
   document.querySelectorAll('.beli-card').forEach(c=>c.classList.remove('selected'));
@@ -952,8 +1102,7 @@ function updateHarga(){
   const jumlah=parseFloat(document.getElementById('beli-jumlah').value)||0;
   const sliderVal=parseInt(document.getElementById('beli-slider').value);
 
-  const slider=document.getElementById('beli-slider');
-  slider.style.setProperty('--val',sliderVal+'%');
+  document.getElementById('beli-slider').style.setProperty('--val',sliderVal+'%');
 
   const uangPersen=(100-sliderVal)/100;
   const limbahPersen=sliderVal/100;
@@ -965,17 +1114,12 @@ function updateHarga(){
   if(sliderVal===0) desc='Bayar sepenuhnya dengan uang';
   else if(sliderVal===100) desc='Bayar sepenuhnya dengan limbah hijau';
   else desc='Campuran: bayar sebagian uang, sebagian limbah hijau';
-
   document.getElementById('slider-desc').textContent=desc;
 
   let ringkasan='';
   if(bayarUang>0) ringkasan+=`Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
-  if(bayarLimbah>0){
-    if(ringkasan) ringkasan+='<br>';
-    ringkasan+=`Bayar limbah: ${bayarLimbah} kg limbah hijau`;
-  }
+  if(bayarLimbah>0){if(ringkasan) ringkasan+='<br>';ringkasan+=`Bayar limbah: ${bayarLimbah} kg limbah hijau`;}
   if(!ringkasan) ringkasan='Bayar: Rp0';
-
   document.getElementById('ringkasan-text').innerHTML=ringkasan;
 }
 
@@ -1002,16 +1146,120 @@ function beliKompos(){
   else if(sliderVal===100) metode='Tukar limbah';
   else metode='Campuran';
 
-  let detailText=`${p.name}: ${jumlah} ${p.unit}<br>Lapak: ${p.asal}<br>Metode: ${metode}`;
-  if(bayarUang>0) detailText+=`<br>Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
-  if(bayarLimbah>0) detailText+=`<br>Bayar limbah: ${bayarLimbah} kg limbah hijau`;
+  let detail=`${p.name}: ${jumlah} ${p.unit}<br>Lapak: ${p.asal}<br>Metode: ${metode}`;
+  if(bayarUang>0) detail+=`<br>Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(bayarLimbah>0) detail+=`<br>Bayar limbah: ${bayarLimbah} kg limbah hijau`;
 
-  addAktivitas('Pembelian Kompos',detailText);
-
+  addAktivitas('Pembelian Kompos',detail);
   resetBeliForm();
   navTo('beranda');
 }
 
+/* ===== TUKAR SAMPAH ===== */
+function selectSampah(type){
+  selectedSampah=type;
+  document.querySelectorAll('.tukar-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-sampah="${type}"]`).classList.add('selected');
+
+  const form=document.getElementById('tukar-form');
+  form.style.display='block';
+  document.getElementById('tukar-title').textContent=sampahData[type].name;
+  document.getElementById('tukar-sub').textContent='Pilih berapa kg sampah yang ingin ditukar';
+
+  const slider=document.getElementById('tukar-slider');
+  slider.value=0;
+  slider.style.setProperty('--val','0%');
+  document.getElementById('tukar-jumlah').value=1;
+  updateTukar();
+
+  setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function updateTukar(){
+  if(!selectedSampah)return;
+  const s=sampahData[selectedSampah];
+  const jumlah=parseFloat(document.getElementById('tukar-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('tukar-slider').value);
+
+  document.getElementById('tukar-slider').style.setProperty('--val',sliderVal+'%');
+
+  const uangPersen=(100-sliderVal)/100;
+  const komposPersen=sliderVal/100;
+
+  const totalHarga=s.harga*jumlah;
+  const bayarUang=Math.round(totalHarga*uangPersen);
+  const komposDidapat=(jumlah/s.rasio*komposPersen).toFixed(1);
+
+  let desc='';
+  if(sliderVal===0) desc='Tukar sepenuhnya dengan uang';
+  else if(sliderVal===100) desc=`Tukar sepenuhnya dengan kompos/POC`;
+  else desc='Campuran: sebagian uang, sebagian kompos/POC';
+  document.getElementById('tukar-slider-desc').textContent=desc;
+
+  let ringkasan=`Total nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>`;
+  if(bayarUang>0) ringkasan+=`Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}<br>`;
+  if(komposDidapat>0) ringkasan+=`Dapat kompos/POC: ${komposDidapat} kg/L`;
+  document.getElementById('tukar-ringkasan-text').innerHTML=ringkasan;
+}
+
+function resetTukarForm(){
+  selectedSampah=null;
+  document.querySelectorAll('.tukar-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('tukar-form').style.display='none';
+}
+
+function tukarSampah(){
+  if(!selectedSampah)return;
+  const s=sampahData[selectedSampah];
+  const jumlah=parseFloat(document.getElementById('tukar-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('tukar-slider').value);
+
+  const uangPersen=(100-sliderVal)/100;
+  const komposPersen=sliderVal/100;
+
+  const totalHarga=s.harga*jumlah;
+  const bayarUang=Math.round(totalHarga*uangPersen);
+  const komposDidapat=(jumlah/s.rasio*komposPersen).toFixed(1);
+
+  let metode='';
+  if(sliderVal===0) metode='Uang penuh';
+  else if(sliderVal===100) metode='Kompos/POC penuh';
+  else metode='Campuran';
+
+  let detail=`Jenis: ${s.name}<br>Berat: ${jumlah} kg<br>Nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>Metode: ${metode}`;
+  if(bayarUang>0) detail+=`<br>Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(komposDidapat>0) detail+=`<br>Dapat kompos/POC: ${komposDidapat} kg/L`;
+  detail+=`<br>Lapak: KomposKita Goalpara`;
+
+  addAktivitas('Penukaran Limbah',detail);
+  resetTukarForm();
+  navTo('beranda');
+}
+
+/* ===== LAPAK ===== */
+function showLapakDetail(id){
+  const l=lapakData.find(x=>x.id===id);
+  document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-lapak="${id}"]`).classList.add('selected');
+
+  const detail=document.getElementById('lapak-detail');
+  detail.style.display='block';
+  document.getElementById('lapak-detail-name').textContent=l.name;
+  document.getElementById('lapak-detail-info').innerHTML=`
+    <p><strong>Alamat:</strong><br>${l.addr}</p>
+    <p><strong>Telepon:</strong><br>${l.cp}</p>
+    <p><strong>Jarak:</strong> ${l.dist}</p>
+    <p><strong>Layanan:</strong><br>${l.layanan}</p>`;
+
+  setTimeout(()=>detail.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function closeLapakDetail(){
+  document.getElementById('lapak-detail').style.display='none';
+  document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
+}
+
+/* ===== UTILS ===== */
 function addAktivitas(title,detailHtml){
   const list=document.getElementById('aktivitas-list');
   const card=document.createElement('div');
@@ -1032,7 +1280,7 @@ function addAktivitas(title,detailHtml){
 
 function showKirimModal(){
   document.getElementById('modal-title').textContent='Berhasil!';
-  document.getElementById('modal-msg').textContent='Pengiriman sampah hijau Anda telah diterima. Tim kami akan segera menjemput.';
+  document.getElementById('modal-msg').textContent='Pengiriman sampah organik Anda telah diterima. Tim kami akan segera menjemput.';
   document.getElementById('modal').classList.add('show');
 }
 
@@ -1043,6 +1291,12 @@ function closeModal(){
 document.addEventListener('DOMContentLoaded',()=>{
   navTo('beranda');
   updateHarga();
+
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.form-card')){
+      document.getElementById('lapak-dropdown').classList.remove('show');
+    }
+  });
 });
 </script>
 </body>
