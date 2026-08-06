@@ -395,6 +395,46 @@ body{
   cursor:pointer;
 }
 .modal button:active{transform:scale(0.96);}
+
+/* ===== BELI KOMPOS ===== */
+.beli-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.beli-card:active{transform:scale(0.97);}
+.beli-card.selected{border-color:var(--green1);}
+
+.slider-labels{display:flex;justify-content:space-between;margin-bottom:8px;}
+.slider-labels span{font-size:12px;color:var(--textsub);font-weight:600;}
+
+.beli-slider{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:12px;border-radius:8px;
+  background:linear-gradient(to right,var(--green1) 0%,var(--green1) var(--val,0%),var(--card2) var(--val,0%),var(--card2) 100%);
+  outline:none;
+}
+.beli-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--green1);border:3px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:pointer;
+}
+.beli-slider::-moz-range-thumb{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--green1);border:3px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:pointer;
+}
+
+.slider-desc{text-align:center;font-size:13px;color:var(--textsub);font-weight:600;margin-top:8px;}
+
+.ringkasan-box{
+  background:var(--card2);border-radius:12px;padding:14px 16px;
+}
+.ringkasan-box p{font-size:14px;color:var(--text);font-weight:600;line-height:1.6;}
+
+.btn-beli{
+  width:100%;padding:14px;border:none;border-radius:16px;
+  background:var(--green1);color:#fff;font-size:16px;font-weight:900;
+  cursor:pointer;transition:transform 0.2s;margin-top:8px;
+}
+.btn-beli:active{transform:scale(0.96);}
 </style>
 </head>
 <body>
@@ -515,31 +555,7 @@ body{
     </div>
     <div class="page-title">AKTIVITASMU</div>
   </div>
-  <div class="card-list">
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" stroke="#000" stroke-width="4" fill="none"/>
-          <path d="M35 50 L50 35 L65 50 L50 65 Z" stroke="#000" stroke-width="3" fill="none"/>
-        </svg>
-      </div>
-      <div class="card-body">
-        <h3>Pembelian Kompos</h3>
-        <p>Kompos kering: 3 kg<br>Lapak: Goalpara KomposKita<br>Pembelian: Langsung</p>
-      </div>
-    </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" stroke="#000" stroke-width="4" fill="none"/>
-          <path d="M35 50 L50 35 L65 50 L50 65 Z" stroke="#000" stroke-width="3" fill="none"/>
-        </svg>
-      </div>
-      <div class="card-body">
-        <h3>Penukaran Limbah</h3>
-        <p>Jenis Limbah: Limbah Hijau<br>Berat: 2.5 kg<br>Penukaran: Rp4.000 + 500 gr Kompos</p>
-      </div>
-    </div>
+  <div class="card-list" id="aktivitas-list">
   </div>
 </div>
 
@@ -560,8 +576,8 @@ body{
     </div>
     <div class="page-title">BELI KOMPOS</div>
   </div>
-  <div class="card-list">
-    <div class="info-card">
+  <div class="card-list" id="beli-list">
+    <div class="info-card beli-card" onclick="selectProduct('kompos-kering')" data-product="kompos-kering">
       <div class="card-icon">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
@@ -575,7 +591,7 @@ body{
         <p>Rp.5.000/kg – 2 kg limbah hijau<br>Asal: KomposKita Goalpara</p>
       </div>
     </div>
-    <div class="info-card">
+    <div class="info-card beli-card" onclick="selectProduct('poc')" data-product="poc">
       <div class="card-icon">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
@@ -588,6 +604,38 @@ body{
         <h3>Pupuk Organik Cair (POC)</h3>
         <p>Rp.20.000/L – 2 kg limbah hijau<br>Asal: KomposKita Goalpara</p>
       </div>
+    </div>
+  </div>
+
+  <div class="purchase-form" id="purchase-form" style="display:none;padding:0 16px 16px;">
+    <div class="form-card">
+      <h3 id="purchase-title">Kompos Kering</h3>
+      <div class="sub" id="purchase-sub">Pilih jumlah yang ingin dibeli</div>
+
+      <div class="form-group">
+        <label>Jumlah</label>
+        <input type="number" id="beli-jumlah" value="1" min="0.5" step="0.5" oninput="updateHarga()">
+      </div>
+
+      <div class="form-group">
+        <label>Metode Pembayaran</label>
+        <div class="slider-labels">
+          <span>Uang penuh</span>
+          <span>Campuran</span>
+          <span>Limbah penuh</span>
+        </div>
+        <input type="range" id="beli-slider" min="0" max="100" value="0" oninput="updateHarga()" class="beli-slider">
+        <div class="slider-desc" id="slider-desc">Bayar sepenuhnya dengan uang</div>
+      </div>
+
+      <div class="form-group">
+        <label>Ringkasan Pembayaran</label>
+        <div class="ringkasan-box" id="ringkasan-box">
+          <p id="ringkasan-text">Bayar: Rp5.000</p>
+        </div>
+      </div>
+
+      <button class="btn-beli" onclick="beliKompos()">Beli</button>
     </div>
   </div>
 </div>
@@ -848,6 +896,13 @@ const pageMap={
   'bantuan':'page-bantuan'
 };
 
+const produkData={
+  'kompos-kering':{name:'Kompos Kering',harga:5000,waste:2,unit:'kg',asal:'KomposKita Goalpara'},
+  'poc':{name:'Pupuk Organik Cair (POC)',harga:20000,waste:2,unit:'L',asal:'KomposKita Goalpara'}
+};
+
+let selectedProduct=null;
+
 function navTo(nav){
   currentPage=nav;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -860,6 +915,7 @@ function navigateTo(pageId){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(pageId==='page-beli') resetBeliForm();
 }
 
 function toggleCheck(el){
@@ -869,6 +925,109 @@ function toggleCheck(el){
 function selectVehicle(el,type){
   document.querySelectorAll('.vehicle-option').forEach(v=>v.classList.remove('selected'));
   el.classList.add('selected');
+}
+
+function selectProduct(product){
+  selectedProduct=product;
+  document.querySelectorAll('.beli-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-product="${product}"]`).classList.add('selected');
+
+  const form=document.getElementById('purchase-form');
+  form.style.display='block';
+  document.getElementById('purchase-title').textContent=produkData[product].name;
+  document.getElementById('purchase-sub').textContent='Pilih jumlah yang ingin dibeli';
+
+  const slider=document.getElementById('beli-slider');
+  slider.value=0;
+  slider.style.setProperty('--val','0%');
+  document.getElementById('beli-jumlah').value=1;
+  updateHarga();
+
+  setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function updateHarga(){
+  if(!selectedProduct)return;
+  const p=produkData[selectedProduct];
+  const jumlah=parseFloat(document.getElementById('beli-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('beli-slider').value);
+
+  const slider=document.getElementById('beli-slider');
+  slider.style.setProperty('--val',sliderVal+'%');
+
+  const uangPersen=(100-sliderVal)/100;
+  const limbahPersen=sliderVal/100;
+
+  const bayarUang=Math.round(p.harga*jumlah*uangPersen);
+  const bayarLimbah=(p.waste*jumlah*limbahPersen).toFixed(1);
+
+  let desc='';
+  if(sliderVal===0) desc='Bayar sepenuhnya dengan uang';
+  else if(sliderVal===100) desc='Bayar sepenuhnya dengan limbah hijau';
+  else desc='Campuran: bayar sebagian uang, sebagian limbah hijau';
+
+  document.getElementById('slider-desc').textContent=desc;
+
+  let ringkasan='';
+  if(bayarUang>0) ringkasan+=`Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(bayarLimbah>0){
+    if(ringkasan) ringkasan+='<br>';
+    ringkasan+=`Bayar limbah: ${bayarLimbah} kg limbah hijau`;
+  }
+  if(!ringkasan) ringkasan='Bayar: Rp0';
+
+  document.getElementById('ringkasan-text').innerHTML=ringkasan;
+}
+
+function resetBeliForm(){
+  selectedProduct=null;
+  document.querySelectorAll('.beli-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('purchase-form').style.display='none';
+}
+
+function beliKompos(){
+  if(!selectedProduct)return;
+  const p=produkData[selectedProduct];
+  const jumlah=parseFloat(document.getElementById('beli-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('beli-slider').value);
+
+  const uangPersen=(100-sliderVal)/100;
+  const limbahPersen=sliderVal/100;
+
+  const bayarUang=Math.round(p.harga*jumlah*uangPersen);
+  const bayarLimbah=(p.waste*jumlah*limbahPersen).toFixed(1);
+
+  let metode='';
+  if(sliderVal===0) metode='Langsung';
+  else if(sliderVal===100) metode='Tukar limbah';
+  else metode='Campuran';
+
+  let detailText=`${p.name}: ${jumlah} ${p.unit}<br>Lapak: ${p.asal}<br>Metode: ${metode}`;
+  if(bayarUang>0) detailText+=`<br>Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(bayarLimbah>0) detailText+=`<br>Bayar limbah: ${bayarLimbah} kg limbah hijau`;
+
+  addAktivitas('Pembelian Kompos',detailText);
+
+  resetBeliForm();
+  navTo('beranda');
+}
+
+function addAktivitas(title,detailHtml){
+  const list=document.getElementById('aktivitas-list');
+  const card=document.createElement('div');
+  card.className='info-card';
+  card.innerHTML=`
+    <div class="card-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" stroke="#000" stroke-width="4" fill="none"/>
+        <path d="M35 50 L50 35 L65 50 L50 65 Z" stroke="#000" stroke-width="3" fill="none"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>${title}</h3>
+      <p>${detailHtml}</p>
+    </div>`;
+  list.prepend(card);
 }
 
 function showKirimModal(){
@@ -883,6 +1042,7 @@ function closeModal(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   navTo('beranda');
+  updateHarga();
 });
 </script>
 </body>
