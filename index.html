@@ -52,22 +52,8 @@ body{
   letter-spacing:0.5px;
   margin-bottom:4px;
 }
-.logo-text{
-  font-family:'Georgia',serif;
-  font-size:42px;
-  font-weight:bold;
-  font-style:italic;
-  line-height:1.1;
-}
-.logo-k{color:var(--orange);}
-.logo-p{color:var(--green1);}
-.logo-o1{color:var(--orange);}
-.logo-recycle{color:var(--green1);display:inline-block;transform:rotate(0deg);}
-.logo-s{color:var(--orange);}
-.logo-k2{color:var(--orange);}
-.logo-i{color:var(--green2);}
-.logo-ta{color:var(--orange);}
-.logo-leaf{color:var(--green2);font-size:20px;vertical-align:super;}
+.logo-img-wrap{display:flex;justify-content:center;margin-top:4px;}
+.logo-img{max-width:280px;width:100%;height:auto;}
 
 /* ===== CAROUSEL ===== */
 .carousel-section{
@@ -476,8 +462,8 @@ body{
 <div class="page active" id="page-beranda">
   <div class="header">
     <h1>HALO AIRA SELAMAT DATANG KEMBALI DI</h1>
-    <div class="logo-text">
-      <span class="logo-k">K</span><span class="logo-recycle">♻</span><span class="logo-o1">o</span><span class="logo-p">m</span><span class="logo-p">p</span><span class="logo-o1">o</span><span class="logo-s">s</span><span class="logo-k2">K</span><span class="logo-i">i</span><span class="logo-ta">t</span><span class="logo-ta">a</span><span class="logo-leaf">🌿</span>
+    <div class="logo-img-wrap">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" class="logo-img">
     </div>
   </div>
 
@@ -537,7 +523,7 @@ body{
           <circle cx="58" cy="28" r="3" fill="#000"/>
         </svg>
       </div>
-      <div class="label">Tukar sampah<br>hijau</div>
+      <div class="label">Tukar sampah<br>organik</div>
     </div>
     <div class="menu-item" onclick="navigateTo('page-beli')">
       <div class="icon-wrap">
@@ -567,7 +553,7 @@ body{
           <text x="24" y="60" fill="#fff" font-size="14" font-weight="bold">♻</text>
         </svg>
       </div>
-      <div class="label">Kirim sampah<br>hijau</div>
+      <div class="label">Kirim sampah<br>organik</div>
     </div>
   </div>
 </div>
@@ -778,7 +764,7 @@ body{
       </div>
       <div class="card-body">
         <h3>Goalpara KomposKita</h3>
-        <p>1 km<br>Ready: tukar limbah tanaman, beli kompos, jemput</p>
+        <p>1 km<br>Layanan: Tukar sampah organik, beli kompos, kirim sampah organik</p>
       </div>
     </div>
     <div class="info-card lapak-card" onclick="showLapakDetail('selabintana')" data-lapak="selabintana">
@@ -791,7 +777,7 @@ body{
       </div>
       <div class="card-body">
         <h3>Selabintana KomposKita</h3>
-        <p>2 km<br>Ready: tukar limbah tanaman, beli kompos</p>
+        <p>2 km<br>Layanan: Tukar sampah organik, beli kompos, kirim sampah organik</p>
       </div>
     </div>
   </div>
@@ -928,26 +914,29 @@ body{
 <div class="bottom-nav">
   <div class="nav-item active" onclick="navTo('aktivitas')" data-nav="aktivitas">
     <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 5 L35 15 L35 28 L20 38 L5 28 L5 15 Z" stroke="#000" stroke-width="2.5" fill="none"/>
-      <path d="M12 20 L20 12 L28 20 L20 28 Z" stroke="#000" stroke-width="2" fill="none"/>
-      <path d="M20 12v16" stroke="#000" stroke-width="1.5"/>
-      <path d="M12 20h16" stroke="#000" stroke-width="1.5"/>
+      <path d="M20 6 L33 28 H7 Z" stroke="#000" stroke-width="2.5" fill="none"/>
+      <path d="M20 6 L12 20 H28 Z" stroke="#000" stroke-width="2" fill="none"/>
+      <path d="M15 22 C15 18 25 18 25 22 C25 26 15 26 15 22Z" stroke="#000" stroke-width="1.5" fill="none"/>
+      <circle cx="20" cy="13" r="2" fill="#000"/>
+      <path d="M20 15v4" stroke="#000" stroke-width="1.5"/>
     </svg>
     <span>Aktivitasmu</span>
   </div>
   <div class="nav-item" onclick="navTo('beranda')" data-nav="beranda">
     <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 20 L20 5 L35 20 L35 35 H25 V25 H15 V35 H5 Z" stroke="#000" stroke-width="2.5" fill="none"/>
+      <path d="M5 22 L20 8 L35 22" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8 20 V34 H16 V26 H24 V34 H32 V20" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     <span>Beranda</span>
   </div>
   <div class="nav-item" onclick="navTo('bantuan')" data-nav="bantuan">
     <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15 30 C15 30 18 22 20 22 C22 22 25 30 25 30" stroke="#000" stroke-width="2.5" fill="none"/>
-      <path d="M20 22 V12" stroke="#000" stroke-width="2"/>
-      <path d="M15 16 C15 10 25 10 25 16" stroke="#000" stroke-width="2" fill="none"/>
-      <ellipse cx="13" cy="10" rx="4" ry="3" fill="#000" transform="rotate(-20 13 10)"/>
-      <ellipse cx="27" cy="10" rx="4" ry="3" fill="#000" transform="rotate(20 27 10)"/>
+      <path d="M12 28 C12 28 14 20 20 20 C26 20 28 28 28 28" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M20 20 V12" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 14 C16 10 20 8 20 8 C20 8 24 10 24 14" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M14 16 C10 14 10 10 14 10" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M26 16 C30 14 30 10 26 10" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M12 28 C12 30 14 32 20 32 C26 32 28 30 28 28" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
     </svg>
     <span>Bantuan</span>
   </div>
@@ -976,8 +965,8 @@ const produkData={
 };
 
 const lapakData=[
-  {id:'goalpara',name:'Goalpara KomposKita',dist:'1 km',addr:'Jl. Raya Goalpara No. 45, Kec. Ciampea, Kab. Bogor',cp:'+62 812-9876-1234',layanan:'Tukar limbah tanaman, Beli kompos, Jemput sampah'},
-  {id:'selabintana',name:'Selabintana KomposKita',dist:'2 km',addr:'Jl. Selabintana No. 12, Kec. Ciampea, Kab. Bogor',cp:'+62 813-4567-8901',layanan:'Tukar limbah tanaman, Beli kompos'}
+  {id:'goalpara',name:'Goalpara KomposKita',dist:'1 km',addr:'Jl. Raya Goalpara No. 45, Kec. Ciampea, Kab. Bogor',cp:'+62 812-9876-1234',layanan:'Tukar sampah organik, Beli kompos, Kirim sampah organik'},
+  {id:'selabintana',name:'Selabintana KomposKita',dist:'2 km',addr:'Jl. Selabintana No. 12, Kec. Ciampea, Kab. Bogor',cp:'+62 813-4567-8901',layanan:'Tukar sampah organik, Beli kompos, Kirim sampah organik'}
 ];
 
 const ongkirTarif={
