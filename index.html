@@ -454,14 +454,67 @@ body{
 .lapak-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
 .lapak-card:active{transform:scale(0.97);}
 .lapak-card.selected{border-color:var(--green1);}
+
+/* ===== SPLASH PAGE ===== */
+.splash-wrap{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:40px 24px;
+  background:linear-gradient(180deg,#f5f0d0 0%,#e6eed1 50%,#d4dfc0 100%);
+}
+.splash-logo{margin-bottom:20px;}
+.splash-logo-img{max-width:260px;width:100%;height:auto;}
+.splash-tagline{
+  font-size:15px;color:var(--textsub);font-weight:600;
+  margin-bottom:40px;text-align:center;
+}
+.splash-form{
+  width:100%;max-width:320px;text-align:center;
+}
+.splash-label{
+  display:block;font-size:14px;font-weight:700;
+  color:var(--text);margin-bottom:12px;
+}
+.splash-input{
+  width:100%;padding:16px 20px;border:3px solid var(--card);
+  border-radius:16px;background:#fff;font-size:16px;
+  font-family:inherit;outline:none;color:var(--text);
+  text-align:center;font-weight:600;
+  transition:border-color 0.2s;
+}
+.splash-input:focus{border-color:var(--green1);}
+.splash-input::placeholder{color:#bbb;font-weight:400;}
+.splash-btn{
+  width:100%;padding:16px;border:none;border-radius:16px;
+  background:var(--green1);color:#fff;font-size:17px;
+  font-weight:900;cursor:pointer;margin-top:16px;
+  transition:transform 0.2s,opacity 0.2s;
+}
+.splash-btn:active{transform:scale(0.96);opacity:0.9;}
+.splash-btn:disabled{opacity:0.4;cursor:not-allowed;}
 </style>
 </head>
 <body>
 
+<!-- ===== SPLASH / WELCOME ===== -->
+<div class="page active" id="page-splash">
+  <div class="splash-wrap">
+    <div class="splash-logo">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" class="splash-logo-img">
+    </div>
+    <div class="splash-tagline">Mulai kelola sampah organikmu</div>
+    <div class="splash-form">
+      <label class="splash-label">Masukkan namamu untuk memulai</label>
+      <input type="text" id="splash-name" class="splash-input" placeholder="Nama kamu..." maxlength="20" autofocus>
+      <button class="splash-btn" onclick="mulaiAplikasi()">Mulai</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== BERANDA ===== -->
-<div class="page active" id="page-beranda">
+<div class="page" id="page-beranda">
   <div class="header">
-    <h1>HALO AIRA SELAMAT DATANG KEMBALI DI</h1>
+    <h1 id="greeting-text">HALO SELAMAT DATANG DI</h1>
     <div class="logo-img-wrap">
       <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" class="logo-img">
     </div>
@@ -1277,9 +1330,42 @@ function closeModal(){
   document.getElementById('modal').classList.remove('show');
 }
 
+function mulaiAplikasi(){
+  const name=document.getElementById('splash-name').value.trim();
+  if(!name){
+    document.getElementById('splash-name').style.borderColor='#e53935';
+    return;
+  }
+  localStorage.setItem('komposkita_nama',name);
+  tampilkanBeranda();
+}
+
+function tampilkanBeranda(){
+  const nama=localStorage.getItem('komposkita_nama')||'';
+  const greeting=document.getElementById('greeting-text');
+  if(nama){
+    greeting.textContent='HALO '+nama.toUpperCase()+' SELAMAT DATANG KEMBALI DI';
+  }else{
+    greeting.textContent='HALO SELAMAT DATANG DI';
+  }
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-beranda').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelector('[data-nav="beranda"]').classList.add('active');
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
-  navTo('beranda');
+  const nama=localStorage.getItem('komposkita_nama');
+  if(nama){
+    tampilkanBeranda();
+  }else{
+    document.getElementById('page-splash').classList.add('active');
+  }
   updateHarga();
+
+  document.getElementById('splash-name').addEventListener('keydown',e=>{
+    if(e.key==='Enter') mulaiAplikasi();
+  });
 
   document.addEventListener('click',e=>{
     if(!e.target.closest('.form-card')){
