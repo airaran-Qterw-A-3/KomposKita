@@ -530,14 +530,6 @@ body{
           <div class="checkbox-custom" onclick="toggleCheck(this)"></div>
         </div>
       </div>
-      <div class="carousel-card">
-        <div class="ingat" style="color:var(--green1);">Kabar Gembira!</div>
-        <p>Lapak KomposKita baru telah dibuka di dekatmu! Kunjungi sekarang dan tukarkan sampah organikmu.</p>
-      </div>
-      <div class="carousel-card">
-        <div class="ingat" style="color:var(--green1);">Pengiriman Berhasil!</div>
-        <p>Sampah organikmu telah berhasil dikirim. Terima kasih telah berkontribusi untuk lingkungan!</p>
-      </div>
     </div>
   </div>
 
@@ -556,39 +548,6 @@ body{
         </svg>
       </div>
       <div class="label">Lapak<br>KomposKita<br>terdekat</div>
-    </div>
-    <div class="menu-item" onclick="navigateTo('page-tukar')">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="25" y="40" width="50" height="42" rx="6" fill="#000"/>
-          <rect x="30" y="36" width="40" height="6" rx="3" fill="#000"/>
-          <ellipse cx="50" cy="38" rx="18" ry="4" fill="#000"/>
-          <circle cx="38" cy="30" r="4" fill="#000"/>
-          <circle cx="50" cy="26" r="5" fill="#000"/>
-          <circle cx="62" cy="30" r="4" fill="#000"/>
-          <path d="M46 22 C48 18 52 18 54 22" stroke="#000" stroke-width="2" fill="none"/>
-          <path d="M50 26v-4" stroke="#000" stroke-width="1.5"/>
-          <path d="M35 55 C35 48 42 44 50 44 C58 44 65 48 65 55 C65 62 58 66 50 66 C42 66 35 62 35 55Z" stroke="#fff" stroke-width="2" fill="none"/>
-          <path d="M42 52 C44 48 48 50 50 54 C52 50 56 48 58 52" stroke="#fff" stroke-width="1.5" fill="none"/>
-          <path d="M44 58 C46 56 50 58 50 58 C50 58 54 56 56 58" stroke="#fff" stroke-width="1.5" fill="none"/>
-        </svg>
-      </div>
-      <div class="label">Tukar sampah<br>organik</div>
-    </div>
-    <div class="menu-item" onclick="navigateTo('page-beli')">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="25" y="42" width="50" height="40" rx="6" fill="#000"/>
-          <rect x="30" y="38" width="40" height="6" rx="3" fill="#000"/>
-          <ellipse cx="50" cy="40" rx="18" ry="4" fill="#000"/>
-          <path d="M50 38 C50 38 54 28 58 24" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <path d="M56 22 C60 18 66 22 62 28" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <path d="M35 58 C35 50 42 46 50 46 C58 46 65 50 65 58 C65 66 58 70 50 70 C42 70 35 66 35 58Z" stroke="#fff" stroke-width="2" fill="none"/>
-          <path d="M42 55 C44 51 48 53 50 57 C52 53 56 51 58 55" stroke="#fff" stroke-width="1.5" fill="none"/>
-          <path d="M44 62 C46 60 50 62 50 62 C50 62 54 60 56 62" stroke="#fff" stroke-width="1.5" fill="none"/>
-        </svg>
-      </div>
-      <div class="label">Beli Kompos</div>
     </div>
     <div class="menu-item" onclick="navigateTo('page-kirim')">
       <div class="icon-wrap">
@@ -839,7 +798,171 @@ body{
     <div class="form-card">
       <h3 id="lapak-detail-name">Goalpara KomposKita</h3>
       <div class="lapak-info" id="lapak-detail-info"></div>
-      <button class="btn-beli" onclick="closeLapakDetail()" style="margin-top:12px;">Tutup</button>
+
+      <div class="menu-grid" style="padding:0;margin-top:12px;">
+        <div class="menu-item" onclick="showStallAction('exchange')" style="min-height:100px;">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
+              <rect x="30" y="30" width="40" height="8" rx="3" fill="#000"/>
+              <ellipse cx="50" cy="32" rx="16" ry="4" fill="#000"/>
+              <circle cx="42" cy="28" r="3" fill="#000"/>
+              <circle cx="50" cy="25" r="3" fill="#000"/>
+              <circle cx="58" cy="28" r="3" fill="#000"/>
+            </svg>
+          </div>
+          <div class="label">Tukar Sampah<br>Organik</div>
+        </div>
+        <div class="menu-item" onclick="showStallAction('buy')" style="min-height:100px;">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="25" y="42" width="50" height="40" rx="6" fill="#000"/>
+              <rect x="30" y="38" width="40" height="6" rx="3" fill="#000"/>
+              <ellipse cx="50" cy="40" rx="18" ry="4" fill="#000"/>
+              <path d="M50 38 C50 38 54 28 58 24" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M56 22 C60 18 66 22 62 28" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M35 58 C35 50 42 46 50 46 C58 46 65 50 65 58 C65 66 58 70 50 70 C42 70 35 66 35 58Z" stroke="#fff" stroke-width="2" fill="none"/>
+              <path d="M42 55 C44 51 48 53 50 57 C52 53 56 51 58 55" stroke="#fff" stroke-width="1.5" fill="none"/>
+              <path d="M44 62 C46 60 50 62 50 62 C50 62 54 60 56 62" stroke="#fff" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+          <div class="label">Beli Kompos</div>
+        </div>
+      </div>
+
+      <div id="stall-exchange-form" style="display:none;margin-top:14px;">
+        <div class="form-card">
+          <h3 id="stall-exchange-title">Tukar Sampah Organik</h3>
+          <div class="sub" id="stall-exchange-sub">Pilih jenis dan jumlah sampah yang ingin ditukar</div>
+
+          <div class="card-list" style="padding:0;margin-bottom:14px;">
+            <div class="info-card exchange-card" onclick="selectStallWaste('hijau')" data-waste="hijau">
+              <div class="card-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
+                  <rect x="30" y="30" width="40" height="8" rx="3" fill="#000"/>
+                  <ellipse cx="50" cy="32" rx="16" ry="4" fill="#000"/>
+                  <circle cx="42" cy="28" r="3" fill="#000"/>
+                  <circle cx="50" cy="25" r="3" fill="#000"/>
+                  <circle cx="58" cy="28" r="3" fill="#000"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3>Sampah Hijau</h3>
+                <p>Rp2.000/kg<br><span class="arrow">→</span> Harga lapak terdekat: KomposKita Goalpara</p>
+              </div>
+            </div>
+            <div class="info-card exchange-card" onclick="selectStallWaste('coklat')" data-waste="coklat">
+              <div class="card-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
+                  <rect x="30" y="30" width="40" height="8" rx="3" fill="#000"/>
+                  <ellipse cx="50" cy="32" rx="16" ry="4" fill="#000"/>
+                  <circle cx="42" cy="28" r="3" fill="#000"/>
+                  <circle cx="50" cy="25" r="3" fill="#000"/>
+                  <circle cx="58" cy="28" r="3" fill="#000"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3>Sampah coklat (kering)</h3>
+                <p>Rp3.000/kg<br><span class="arrow">→</span> Harga lapak terdekat: KomposKita Goalpara</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jumlah (kg)</label>
+            <input type="number" id="stall-tukar-jumlah" value="1" min="0.5" step="0.5" oninput="updateStallTukar()">
+          </div>
+
+          <div class="form-group">
+            <label>Tukar dengan</label>
+            <div class="slider-labels">
+              <span>Uang penuh</span>
+              <span>Campuran</span>
+              <span>Kompos/POC penuh</span>
+            </div>
+            <input type="range" id="stall-tukar-slider" min="0" max="100" value="0" oninput="updateStallTukar()" class="beli-slider">
+            <div class="slider-desc" id="stall-tukar-slider-desc">Tukar sepenuhnya dengan uang</div>
+          </div>
+
+          <div class="form-group">
+            <label>Ringkasan Penukaran</label>
+            <div class="ringkasan-box" id="stall-tukar-ringkasan">
+              <p id="stall-tukar-ringkasan-text"></p>
+            </div>
+          </div>
+
+          <button class="btn-beli" onclick="showConfirmModal('exchange')">Tukar</button>
+          <button class="btn-beli" onclick="backToStallActions()" style="margin-top:8px;background:var(--card2);">Kembali</button>
+        </div>
+      </div>
+
+      <div id="stall-buy-form" style="display:none;margin-top:14px;">
+        <div class="form-card">
+          <h3 id="stall-buy-title">Beli Kompos</h3>
+          <div class="sub" id="stall-buy-sub">Pilih produk dan jumlah yang ingin dibeli</div>
+
+          <div class="card-list" style="padding:0;margin-bottom:14px;">
+            <div class="info-card beli-card" onclick="selectStallProduct('kompos-kering')" data-product="kompos-kering">
+              <div class="card-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+                  <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+                  <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+                  <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3>Kompos Kering</h3>
+                <p>Rp.5.000/kg – 2 kg limbah hijau<br>Asal: KomposKita Goalpara</p>
+              </div>
+            </div>
+            <div class="info-card beli-card" onclick="selectStallProduct('poc')" data-product="poc">
+              <div class="card-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+                  <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+                  <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+                  <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3>Pupuk Organik Cair (POC)</h3>
+                <p>Rp.20.000/L – 2 kg limbah hijau<br>Asal: KomposKita Goalpara</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jumlah</label>
+            <input type="number" id="stall-beli-jumlah" value="1" min="0.5" step="0.5" oninput="updateStallBeli()">
+          </div>
+
+          <div class="form-group">
+            <label>Metode Pembayaran</label>
+            <div class="slider-labels">
+              <span>Uang penuh</span>
+              <span>Campuran</span>
+              <span>Limbah penuh</span>
+            </div>
+            <input type="range" id="stall-beli-slider" min="0" max="100" value="0" oninput="updateStallBeli()" class="beli-slider">
+            <div class="slider-desc" id="stall-beli-slider-desc">Bayar sepenuhnya dengan uang</div>
+          </div>
+
+          <div class="form-group">
+            <label>Ringkasan Pembayaran</label>
+            <div class="ringkasan-box" id="stall-beli-ringkasan">
+              <p id="stall-beli-ringkasan-text"></p>
+            </div>
+          </div>
+
+          <button class="btn-beli" onclick="showConfirmModal('buy')">Beli</button>
+          <button class="btn-beli" onclick="backToStallActions()" style="margin-top:8px;background:var(--card2);">Kembali</button>
+        </div>
+      </div>
+
+      <button class="btn-beli" onclick="closeLapakDetail()" style="margin-top:12px;background:var(--card2);" id="lapak-close-btn">Tutup</button>
     </div>
   </div>
 </div>
@@ -995,6 +1118,16 @@ body{
   </div>
 </div>
 
+<!-- ===== CONFIRMATION MODAL ===== -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <h3 id="confirm-title">Konfirmasi Transaksi</h3>
+    <p id="confirm-msg"></p>
+    <button onclick="confirmTransaction()" id="confirm-btn">Tukar</button>
+    <button onclick="closeConfirmModal()" style="background:var(--card2);color:var(--text);margin-top:8px;">Batal</button>
+  </div>
+</div>
+
 <!-- ===== MODAL ===== -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
@@ -1052,6 +1185,7 @@ function navigateTo(pageId){
   if(pageId==='page-beli') resetBeliForm();
   if(pageId==='page-tukar') resetTukarForm();
   if(pageId==='page-kirim') resetKirimForm();
+  if(pageId==='page-lapak') closeLapakDetail();
 }
 
 function toggleCheck(el){
@@ -1281,6 +1415,7 @@ function tukarSampah(){
 /* ===== LAPAK ===== */
 function showLapakDetail(id){
   const l=lapakData.find(x=>x.id===id);
+  selectedStall=l;
   document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
   document.querySelector(`[data-lapak="${id}"]`).classList.add('selected');
 
@@ -1299,6 +1434,204 @@ function showLapakDetail(id){
 function closeLapakDetail(){
   document.getElementById('lapak-detail').style.display='none';
   document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('stall-exchange-form').style.display='none';
+  document.getElementById('stall-buy-form').style.display='none';
+  document.getElementById('lapak-close-btn').textContent='Tutup';
+  selectedStallAction=null;
+  selectedStallWaste=null;
+  selectedStallProduct=null;
+}
+
+function backToStallActions(){
+  document.getElementById('stall-exchange-form').style.display='none';
+  document.getElementById('stall-buy-form').style.display='none';
+  document.getElementById('lapak-close-btn').textContent='Tutup';
+  selectedStallAction=null;
+  selectedStallWaste=null;
+  selectedStallProduct=null;
+}
+
+/* ===== STALL ACTIONS ===== */
+let selectedStallAction=null;
+let selectedStallWaste=null;
+let selectedStallProduct=null;
+
+function showStallAction(action){
+  selectedStallAction=action;
+  document.getElementById('stall-exchange-form').style.display='none';
+  document.getElementById('stall-buy-form').style.display='none';
+  document.getElementById('lapak-close-btn').textContent='Kembali';
+
+  if(action==='exchange'){
+    document.getElementById('stall-exchange-form').style.display='block';
+    selectedStallWaste=null;
+    document.querySelectorAll('#stall-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
+    const slider=document.getElementById('stall-tukar-slider');
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+    document.getElementById('stall-tukar-jumlah').value=1;
+    updateStallTukar();
+    setTimeout(()=>document.getElementById('stall-exchange-form').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }else if(action==='buy'){
+    document.getElementById('stall-buy-form').style.display='block';
+    selectedStallProduct=null;
+    document.querySelectorAll('#stall-buy-form .beli-card').forEach(c=>c.classList.remove('selected'));
+    const slider=document.getElementById('stall-beli-slider');
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+    document.getElementById('stall-beli-jumlah').value=1;
+    updateStallBeli();
+    setTimeout(()=>document.getElementById('stall-buy-form').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }
+}
+
+function selectStallWaste(type){
+  selectedStallWaste=type;
+  document.querySelectorAll('#stall-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`#stall-exchange-form [data-waste="${type}"]`).classList.add('selected');
+  const slider=document.getElementById('stall-tukar-slider');
+  slider.value=0;
+  slider.style.setProperty('--val','0%');
+  document.getElementById('stall-tukar-jumlah').value=1;
+  updateStallTukar();
+}
+
+function updateStallTukar(){
+  if(!selectedStallWaste)return;
+  const s=sampahData[selectedStallWaste];
+  const jumlah=parseFloat(document.getElementById('stall-tukar-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('stall-tukar-slider').value);
+
+  document.getElementById('stall-tukar-slider').style.setProperty('--val',sliderVal+'%');
+
+  const uangPersen=(100-sliderVal)/100;
+  const komposPersen=sliderVal/100;
+
+  const totalHarga=s.harga*jumlah;
+  const bayarUang=Math.round(totalHarga*uangPersen);
+  const komposDidapat=(jumlah/s.rasio*komposPersen).toFixed(1);
+
+  let desc='';
+  if(sliderVal===0) desc='Tukar sepenuhnya dengan uang';
+  else if(sliderVal===100) desc='Tukar sepenuhnya dengan kompos/POC';
+  else desc='Campuran: sebagian uang, sebagian kompos/POC';
+  document.getElementById('stall-tukar-slider-desc').textContent=desc;
+
+  let ringkasan=`Total nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>`;
+  if(bayarUang>0) ringkasan+=`Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}<br>`;
+  if(komposDidapat>0) ringkasan+=`Dapat kompos/POC: ${komposDidapat} kg/L`;
+  document.getElementById('stall-tukar-ringkasan-text').innerHTML=ringkasan;
+}
+
+function selectStallProduct(product){
+  selectedStallProduct=product;
+  document.querySelectorAll('#stall-buy-form .beli-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`#stall-buy-form [data-product="${product}"]`).classList.add('selected');
+  const slider=document.getElementById('stall-beli-slider');
+  slider.value=0;
+  slider.style.setProperty('--val','0%');
+  document.getElementById('stall-beli-jumlah').value=1;
+  updateStallBeli();
+}
+
+function updateStallBeli(){
+  if(!selectedStallProduct)return;
+  const p=produkData[selectedStallProduct];
+  const jumlah=parseFloat(document.getElementById('stall-beli-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('stall-beli-slider').value);
+
+  document.getElementById('stall-beli-slider').style.setProperty('--val',sliderVal+'%');
+
+  const uangPersen=(100-sliderVal)/100;
+  const limbahPersen=sliderVal/100;
+
+  const bayarUang=Math.round(p.harga*jumlah*uangPersen);
+  const bayarLimbah=(p.waste*jumlah*limbahPersen).toFixed(1);
+
+  let desc='';
+  if(sliderVal===0) desc='Bayar sepenuhnya dengan uang';
+  else if(sliderVal===100) desc='Bayar sepenuhnya dengan limbah hijau';
+  else desc='Campuran: bayar sebagian uang, sebagian limbah hijau';
+  document.getElementById('stall-beli-slider-desc').textContent=desc;
+
+  let ringkasan='';
+  if(bayarUang>0) ringkasan+=`Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(bayarLimbah>0){if(ringkasan) ringkasan+='<br>';ringkasan+=`Bayar limbah: ${bayarLimbah} kg limbah hijau`;}
+  if(!ringkasan) ringkasan='Bayar: Rp0';
+  document.getElementById('stall-beli-ringkasan-text').innerHTML=ringkasan;
+}
+
+let pendingTransaction=null;
+
+function showConfirmModal(type){
+  if(type==='exchange'){
+    if(!selectedStall||!selectedStallWaste)return;
+    const s=sampahData[selectedStallWaste];
+    const jumlah=parseFloat(document.getElementById('stall-tukar-jumlah').value)||0;
+    const sliderVal=parseInt(document.getElementById('stall-tukar-slider').value);
+
+    const uangPersen=(100-sliderVal)/100;
+    const komposPersen=sliderVal/100;
+
+    const totalHarga=s.harga*jumlah;
+    const bayarUang=Math.round(totalHarga*uangPersen);
+    const komposDidapat=(jumlah/s.rasio*komposPersen).toFixed(1);
+
+    let metode='';
+    if(sliderVal===0) metode='Uang penuh';
+    else if(sliderVal===100) metode='Kompos/POC penuh';
+    else metode='Campuran';
+
+    let detail=`Jenis: ${s.name}<br>Berat: ${jumlah} kg<br>Nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>Metode: ${metode}`;
+    if(bayarUang>0) detail+=`<br>Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+    if(komposDidapat>0) detail+=`<br>Dapat kompos/POC: ${komposDidapat} kg/L`;
+    detail+=`<br>Lapak: ${selectedStall.name}`;
+
+    pendingTransaction={type:'Penukaran Limbah',detail:detail};
+  }else if(type==='buy'){
+    if(!selectedStall||!selectedStallProduct)return;
+    const p=produkData[selectedStallProduct];
+    const jumlah=parseFloat(document.getElementById('stall-beli-jumlah').value)||0;
+    const sliderVal=parseInt(document.getElementById('stall-beli-slider').value);
+
+    const uangPersen=(100-sliderVal)/100;
+    const limbahPersen=sliderVal/100;
+
+    const bayarUang=Math.round(p.harga*jumlah*uangPersen);
+    const bayarLimbah=(p.waste*jumlah*limbahPersen).toFixed(1);
+
+    let metode='';
+    if(sliderVal===0) metode='Langsung';
+    else if(sliderVal===100) metode='Tukar limbah';
+    else metode='Campuran';
+
+    let detail=`${p.name}: ${jumlah} ${p.unit}<br>Lapak: ${selectedStall.name}<br>Metode: ${metode}`;
+    if(bayarUang>0) detail+=`<br>Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+    if(bayarLimbah>0) detail+=`<br>Bayar limbah: ${bayarLimbah} kg limbah hijau`;
+
+    pendingTransaction={type:'Pembelian Kompos',detail:detail};
+  }
+
+  if(pendingTransaction){
+    document.getElementById('confirm-title').textContent='Konfirmasi Transaksi';
+    document.getElementById('confirm-msg').innerHTML=pendingTransaction.detail;
+    document.getElementById('confirm-btn').textContent=type==='exchange'?'Tukar':'Beli';
+    document.getElementById('confirm-modal').classList.add('show');
+  }
+}
+
+function confirmTransaction(){
+  if(!pendingTransaction)return;
+  addAktivitas(pendingTransaction.type,pendingTransaction.detail);
+  pendingTransaction=null;
+  closeConfirmModal();
+  closeLapakDetail();
+  navTo('beranda');
+}
+
+function closeConfirmModal(){
+  document.getElementById('confirm-modal').classList.remove('show');
+  pendingTransaction=null;
 }
 
 /* ===== UTILS ===== */
