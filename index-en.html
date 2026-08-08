@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KomposKita</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'Fredoka';src:local('Fredoka One');}
+
+:root{
+  --bg:#e6eed1;
+  --card:#f5f0d0;
+  --card2:#f0edd2;
+  --text:#000;
+  --textsub:#8b7355;
+  --orange:#e07020;
+  --green1:#2d8a4e;
+  --green2:#5ab87a;
+  --green3:#b5d89a;
+  --navbg:#d4dfc0;
+  --red:#d32f2f;
+}
+
+body{
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background:var(--bg);
+  max-width:430px;
+  margin:0 auto;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  -webkit-user-select:none;
+  user-select:none;
+}
+
+.page{display:none;padding-bottom:90px;min-height:100vh;}
+.page.active{display:block;}
+
+/* ===== HEADER ===== */
+.header{
+  background:linear-gradient(180deg,#f5f0d0 0%,#e6eed1 100%);
+  padding:24px 16px 16px;
+  text-align:center;
+  border-bottom-left-radius:30px;
+  border-bottom-right-radius:30px;
+}
+.header h1{
+  font-size:14px;
+  color:var(--textsub);
+  font-weight:600;
+  letter-spacing:0.5px;
+  margin-bottom:4px;
+}
+.logo-img-wrap{display:flex;justify-content:center;margin-top:4px;}
+.logo-img{max-width:280px;width:100%;height:auto;}
+
+/* ===== CAROUSEL ===== */
+.carousel-section{
+  padding:16px 16px 0;
+  overflow:hidden;
+}
+.carousel-track{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding-bottom:8px;
+}
+.carousel-track::-webkit-scrollbar{display:none;}
+.carousel-card{
+  min-width:85%;
+  background:var(--card);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  scroll-snap-align:start;
+  flex-shrink:0;
+}
+.carousel-card .ingat{
+  color:var(--red);
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+.carousel-card p{
+  color:var(--textsub);
+  font-size:15px;
+  line-height:1.5;
+  margin-bottom:12px;
+}
+.carousel-card .sudah-row{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+}
+.carousel-card .sudah-row span{
+  color:var(--textsub);
+  font-size:15px;
+  text-decoration:underline;
+}
+.checkbox-custom{
+  width:28px;height:28px;
+  border:3px solid var(--textsub);
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;
+  transition:all 0.2s;
+}
+.checkbox-custom.checked{
+  background:var(--green1);
+  border-color:var(--green1);
+}
+.checkbox-custom.checked::after{
+  content:'✓';color:#fff;font-size:16px;font-weight:bold;
+}
+
+/* ===== MENU GRID ===== */
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  padding:20px 16px;
+}
+.menu-item{
+  background:var(--card);
+  border-radius:16px;
+  padding:20px 12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s;
+  min-height:140px;
+}
+.menu-item:active{transform:scale(0.96);}
+.menu-item .icon-wrap{
+  width:70px;height:70px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:8px;
+}
+.menu-item .icon-wrap svg{width:64px;height:64px;}
+.menu-item .label{
+  font-size:14px;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.3;
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{
+  position:fixed;
+  bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:100%;max-width:430px;
+  background:var(--navbg);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  padding:10px 0 14px;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  z-index:100;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.08);
+}
+.nav-item{
+  display:flex;flex-direction:column;
+  align-items:center;gap:2px;
+  cursor:pointer;
+  padding:4px 16px;
+  border-radius:12px;
+  transition:background 0.2s;
+}
+.nav-item:active{background:rgba(0,0,0,0.05);}
+.nav-item svg{width:28px;height:28px;}
+.nav-item span{font-size:11px;font-weight:700;color:var(--text);}
+.nav-item.active span{color:var(--green1);}
+
+/* ===== PAGE HEADER (sub pages) ===== */
+.page-header{
+  background:linear-gradient(180deg,#f5f0d0 0%,#e6eed1 100%);
+  padding:16px 16px 20px;
+  text-align:center;
+  border-bottom-left-radius:30px;
+  border-bottom-right-radius:30px;
+}
+.page-header .logo-small{
+  font-family:'Georgia',serif;
+  font-size:22px;
+  font-weight:bold;
+  font-style:italic;
+  text-align:left;
+  margin-bottom:8px;
+}
+.page-header .page-icon{
+  width:80px;height:80px;
+  margin:0 auto 8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.page-header .page-icon svg{width:72px;height:72px;}
+.page-header .page-title{
+  font-size:18px;
+  font-weight:900;
+  color:var(--text);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+/* ===== CARD LIST (sub pages) ===== */
+.card-list{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.info-card{
+  background:var(--card);
+  border-radius:16px;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+.info-card .card-icon{
+  width:60px;height:60px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.info-card .card-icon svg{width:52px;height:52px;}
+.info-card .card-body h3{
+  font-size:16px;
+  font-weight:900;
+  color:var(--text);
+  margin-bottom:3px;
+}
+.info-card .card-body p{
+  font-size:13px;
+  color:var(--textsub);
+  line-height:1.4;
+  font-weight:600;
+}
+.info-card .card-body .arrow{
+  color:var(--textsub);
+}
+
+/* ===== KIRIM SAMPAH FORM ===== */
+.form-section{padding:16px;}
+.form-card{
+  background:var(--card);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom:14px;
+}
+.form-card h3{
+  font-size:16px;
+  font-weight:900;
+  text-align:center;
+  margin-bottom:4px;
+}
+.form-card .sub{
+  font-size:13px;
+  text-align:center;
+  color:var(--textsub);
+  font-weight:600;
+  margin-bottom:14px;
+}
+.vehicle-grid{
+  display:flex;
+  gap:12px;
+}
+.vehicle-option{
+  flex:1;
+  background:var(--card2);
+  border-radius:16px;
+  padding:14px 8px;
+  text-align:center;
+  cursor:pointer;
+  border:3px solid transparent;
+  transition:border-color 0.2s;
+}
+.vehicle-option.selected{border-color:var(--green1);}
+.vehicle-option .v-name{
+  font-size:15px;
+  font-weight:900;
+  color:var(--text);
+}
+.vehicle-option .v-range{
+  font-size:12px;
+  color:var(--green1);
+  font-weight:600;
+  margin-bottom:8px;
+}
+.vehicle-option svg{width:60px;height:40px;}
+
+.form-group{margin-bottom:14px;}
+.form-group label{
+  display:block;
+  font-size:15px;
+  font-weight:900;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.form-group input,.form-group select{
+  width:100%;
+  padding:14px 16px;
+  border:none;
+  border-radius:16px;
+  background:var(--card2);
+  font-size:15px;
+  font-family:inherit;
+  outline:none;
+  color:var(--text);
+}
+
+.ongkos-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:8px;
+}
+.ongkos-display{
+  flex:1;
+  background:var(--card2);
+  border-radius:16px;
+  padding:14px 16px;
+  font-size:15px;
+  color:var(--textsub);
+  font-weight:600;
+}
+.btn-kirim{
+  background:var(--card2);
+  border:none;
+  border-radius:16px;
+  padding:14px 28px;
+  font-size:16px;
+  font-weight:900;
+  color:var(--text);
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+.btn-kirim:active{transform:scale(0.95);}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.4);
+  z-index:200;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.modal-overlay.show{display:flex;}
+.modal{
+  background:#fff;
+  border-radius:20px;
+  padding:28px 24px;
+  max-width:340px;
+  width:100%;
+  text-align:center;
+}
+.modal h3{font-size:18px;font-weight:900;margin-bottom:8px;}
+.modal p{font-size:14px;color:var(--textsub);margin-bottom:16px;line-height:1.5;}
+.modal button{
+  background:var(--green1);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  padding:12px 32px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+.modal button:active{transform:scale(0.96);}
+
+/* ===== BELI KOMPOS ===== */
+.beli-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.beli-card:active{transform:scale(0.97);}
+.beli-card.selected{border-color:var(--green1);}
+
+.slider-labels{display:flex;justify-content:space-between;margin-bottom:8px;}
+.slider-labels span{font-size:12px;color:var(--textsub);font-weight:600;}
+
+.beli-slider{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:12px;border-radius:8px;
+  background:linear-gradient(to right,var(--green1) 0%,var(--green1) var(--val,0%),var(--card2) var(--val,0%),var(--card2) 100%);
+  outline:none;
+}
+.beli-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--green1);border:3px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:pointer;
+}
+.beli-slider::-moz-range-thumb{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--green1);border:3px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:pointer;
+}
+
+.slider-desc{text-align:center;font-size:13px;color:var(--textsub);font-weight:600;margin-top:8px;}
+
+.ringkasan-box{
+  background:var(--card2);border-radius:12px;padding:14px 16px;
+}
+.ringkasan-box p{font-size:14px;color:var(--text);font-weight:600;line-height:1.6;}
+
+.btn-beli{
+  width:100%;padding:14px;border:none;border-radius:16px;
+  background:var(--green1);color:#fff;font-size:16px;font-weight:900;
+  cursor:pointer;transition:transform 0.2s;margin-top:8px;
+}
+.btn-beli:active{transform:scale(0.96);}
+
+/* ===== LAPAK DROPDOWN ===== */
+.lapak-dropdown{
+  position:absolute;left:16px;right:16px;
+  background:#fff;border-radius:12px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  z-index:50;display:none;overflow:hidden;
+  max-height:200px;overflow-y:auto;
+}
+.lapak-dropdown.show{display:block;}
+.lapak-dropdown-item{
+  padding:12px 16px;cursor:pointer;
+  font-size:14px;font-weight:600;color:var(--text);
+  border-bottom:1px solid #eee;
+}
+.lapak-dropdown-item:last-child{border-bottom:none;}
+.lapak-dropdown-item:active{background:var(--card2);}
+.lapak-dropdown-item .lapak-dist{font-size:12px;color:var(--textsub);font-weight:400;}
+
+/* ===== LAPAK DETAIL ===== */
+.lapak-info{margin-top:10px;}
+.lapak-info p{font-size:13px;color:var(--textsub);line-height:1.6;font-weight:600;margin-bottom:6px;}
+.lapak-info strong{color:var(--text);}
+
+/* ===== TUKAR CARD ===== */
+.tukar-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.tukar-card:active{transform:scale(0.97);}
+.tukar-card.selected{border-color:var(--green1);}
+
+/* ===== LAPAK CARD ===== */
+.lapak-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.lapak-card:active{transform:scale(0.97);}
+.lapak-card.selected{border-color:var(--green1);}
+
+/* ===== SPLASH PAGE ===== */
+.splash-wrap{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:40px 24px;
+  background:linear-gradient(180deg,#f5f0d0 0%,#e6eed1 50%,#d4dfc0 100%);
+}
+.splash-logo{margin-bottom:20px;}
+.splash-logo-img{max-width:260px;width:100%;height:auto;}
+.splash-tagline{
+  font-size:15px;color:var(--textsub);font-weight:600;
+  margin-bottom:40px;text-align:center;
+}
+.splash-form{
+  width:100%;max-width:320px;text-align:center;
+}
+.splash-label{
+  display:block;font-size:14px;font-weight:700;
+  color:var(--text);margin-bottom:12px;
+}
+.splash-input{
+  width:100%;padding:16px 20px;border:3px solid var(--card);
+  border-radius:16px;background:#fff;font-size:16px;
+  font-family:inherit;outline:none;color:var(--text);
+  text-align:center;font-weight:600;
+  transition:border-color 0.2s;
+}
+.splash-input:focus{border-color:var(--green1);}
+.splash-input::placeholder{color:#bbb;font-weight:400;}
+.splash-btn{
+  width:100%;padding:16px;border:none;border-radius:16px;
+  background:var(--green1);color:#fff;font-size:17px;
+  font-weight:900;cursor:pointer;margin-top:16px;
+  transition:transform 0.2s,opacity 0.2s;
+}
+.splash-btn:active{transform:scale(0.96);opacity:0.9;}
+.splash-btn:disabled{opacity:0.4;cursor:not-allowed;}
+</style>
+</head>
+<body>
+
+<!-- ===== SPLASH / WELCOME ===== -->
+<div class="page active" id="page-splash">
+  <div class="splash-wrap">
+    <div class="splash-logo">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" class="splash-logo-img">
+    </div>
+    <div class="splash-tagline">Mulai kelola sampah organikmu</div>
+    <div class="splash-form">
+      <label class="splash-label">Masukkan namamu untuk memulai</label>
+      <input type="text" id="splash-name" class="splash-input" placeholder="Nama kamu..." maxlength="20" autofocus>
+      <button class="splash-btn" onclick="mulaiAplikasi()">Mulai</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BERANDA ===== -->
+<div class="page" id="page-beranda">
+  <div class="header">
+    <h1 id="greeting-text">HALO SELAMAT DATANG DI</h1>
+    <div class="logo-img-wrap">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" class="logo-img">
+    </div>
+  </div>
+
+  <div class="carousel-section">
+    <div class="carousel-track">
+      <div class="carousel-card">
+        <div class="ingat">Ingat!</div>
+        <p>Apakah kamu sudah memisahkan sampah dapur mu hari ini?</p>
+        <div class="sudah-row">
+          <span>Sudah</span>
+          <div class="checkbox-custom" onclick="toggleCheck(this)"></div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <div class="ingat" style="color:var(--green1);">Kabar Gembira!</div>
+        <p>Lapak KomposKita baru telah dibuka di dekatmu! Kunjungi sekarang dan tukarkan sampah organikmu.</p>
+      </div>
+      <div class="carousel-card">
+        <div class="ingat" style="color:var(--green1);">Pengiriman Berhasil!</div>
+        <p>Sampah organikmu telah berhasil dikirim. Terima kasih telah berkontribusi untuk lingkungan!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-item" onclick="navigateTo('page-lapak')">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="40" width="44" height="48" rx="4" fill="#000"/>
+          <rect x="32" y="36" width="36" height="6" rx="2" fill="#000"/>
+          <rect x="38" y="50" width="24" height="3" rx="1" fill="#fff"/>
+          <path d="M44 60 C44 56 56 56 56 60 C56 64 44 64 44 60Z" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <path d="M50 56v8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="68" cy="30" r="14" fill="#e53935"/>
+          <path d="M68 22v16M60 30h16" stroke="#fff" stroke-width="3"/>
+          <path d="M36 72 C36 72 38 66 44 66 C50 66 50 72 50 72" stroke="#fff" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="label">Lapak<br>KomposKita<br>terdekat</div>
+    </div>
+    <div class="menu-item" onclick="navigateTo('page-tukar')">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="40" width="50" height="42" rx="6" fill="#000"/>
+          <rect x="30" y="36" width="40" height="6" rx="3" fill="#000"/>
+          <ellipse cx="50" cy="38" rx="18" ry="4" fill="#000"/>
+          <circle cx="38" cy="30" r="4" fill="#000"/>
+          <circle cx="50" cy="26" r="5" fill="#000"/>
+          <circle cx="62" cy="30" r="4" fill="#000"/>
+          <path d="M46 22 C48 18 52 18 54 22" stroke="#000" stroke-width="2" fill="none"/>
+          <path d="M50 26v-4" stroke="#000" stroke-width="1.5"/>
+          <path d="M35 55 C35 48 42 44 50 44 C58 44 65 48 65 55 C65 62 58 66 50 66 C42 66 35 62 35 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+          <path d="M42 52 C44 48 48 50 50 54 C52 50 56 48 58 52" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <path d="M44 58 C46 56 50 58 50 58 C50 58 54 56 56 58" stroke="#fff" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="label">Tukar sampah<br>organik</div>
+    </div>
+    <div class="menu-item" onclick="navigateTo('page-beli')">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="42" width="50" height="40" rx="6" fill="#000"/>
+          <rect x="30" y="38" width="40" height="6" rx="3" fill="#000"/>
+          <ellipse cx="50" cy="40" rx="18" ry="4" fill="#000"/>
+          <path d="M50 38 C50 38 54 28 58 24" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M56 22 C60 18 66 22 62 28" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M35 58 C35 50 42 46 50 46 C58 46 65 50 65 58 C65 66 58 70 50 70 C42 70 35 66 35 58Z" stroke="#fff" stroke-width="2" fill="none"/>
+          <path d="M42 55 C44 51 48 53 50 57 C52 53 56 51 58 55" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <path d="M44 62 C46 60 50 62 50 62 C50 62 54 60 56 62" stroke="#fff" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="label">Beli Kompos</div>
+    </div>
+    <div class="menu-item" onclick="navigateTo('page-kirim')">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="32" width="55" height="32" rx="4" fill="#000"/>
+          <rect x="63" y="40" width="22" height="24" rx="3" fill="#000"/>
+          <rect x="66" y="42" width="16" height="10" rx="2" fill="#fff" opacity="0.3"/>
+          <circle cx="28" cy="70" r="9" fill="#000"/>
+          <circle cx="28" cy="70" r="4" fill="#fff"/>
+          <circle cx="75" cy="70" r="9" fill="#000"/>
+          <circle cx="75" cy="70" r="4" fill="#fff"/>
+          <path d="M22 42 L30 36 L42 36 L48 42" stroke="#fff" stroke-width="2" fill="none"/>
+          <path d="M52 42 L58 36" stroke="#fff" stroke-width="2" fill="none"/>
+          <path d="M18 50 L26 44 L34 50 L26 56 Z" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <path d="M26 44v12M18 50h16" stroke="#fff" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="label">Kirim sampah<br>organik</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AKTIVITASMU ===== -->
+<div class="page" id="page-aktivitas">
+  <div class="page-header">
+    <div class="logo-small">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" style="max-width:140px;width:100%;height:auto;">
+    </div>
+    <div class="page-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" stroke="#000" stroke-width="4" fill="none"/>
+        <path d="M35 50 L50 35 L65 50 L50 65 Z" stroke="#000" stroke-width="3" fill="none"/>
+        <path d="M50 35v30" stroke="#000" stroke-width="2"/>
+        <path d="M35 50h30" stroke="#000" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="page-title">AKTIVITASMU</div>
+  </div>
+  <div class="card-list" id="aktivitas-list">
+  </div>
+</div>
+
+<!-- ===== BELI KOMPOS ===== -->
+<div class="page" id="page-beli">
+  <div class="page-header">
+    <div class="logo-small">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" style="max-width:140px;width:100%;height:auto;">
+    </div>
+    <div class="page-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+        <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+        <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+        <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+        <path d="M58 24 C62 20 66 22 64 28" stroke="#000" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <div class="page-title">BELI KOMPOS</div>
+  </div>
+  <div class="card-list" id="beli-list">
+    <div class="info-card beli-card" onclick="selectProduct('kompos-kering')" data-product="kompos-kering">
+      <div class="card-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+          <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+          <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+          <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Kompos Kering</h3>
+        <p>Rp.5.000/kg – 2 kg limbah hijau<br>Asal: KomposKita Goalpara</p>
+      </div>
+    </div>
+    <div class="info-card beli-card" onclick="selectProduct('poc')" data-product="poc">
+      <div class="card-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+          <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+          <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+          <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Pupuk Organik Cair (POC)</h3>
+        <p>Rp.20.000/L – 2 kg limbah hijau<br>Asal: KomposKita Goalpara</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="purchase-form" id="purchase-form" style="display:none;padding:0 16px 16px;">
+    <div class="form-card">
+      <h3 id="purchase-title">Kompos Kering</h3>
+      <div class="sub" id="purchase-sub">Pilih jumlah yang ingin dibeli</div>
+
+      <div class="form-group">
+        <label>Jumlah</label>
+        <input type="number" id="beli-jumlah" value="1" min="0.5" step="0.5" oninput="updateHarga()">
+      </div>
+
+      <div class="form-group">
+        <label>Metode Pembayaran</label>
+        <div class="slider-labels">
+          <span>Uang penuh</span>
+          <span>Campuran</span>
+          <span>Limbah penuh</span>
+        </div>
+        <input type="range" id="beli-slider" min="0" max="100" value="0" oninput="updateHarga()" class="beli-slider">
+        <div class="slider-desc" id="slider-desc">Bayar sepenuhnya dengan uang</div>
+      </div>
+
+      <div class="form-group">
+        <label>Ringkasan Pembayaran</label>
+        <div class="ringkasan-box" id="ringkasan-box">
+          <p id="ringkasan-text">Bayar: Rp5.000</p>
+        </div>
+      </div>
+
+      <button class="btn-beli" onclick="beliKompos()">Beli</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KIRIM SAMPAH ===== -->
+<div class="page" id="page-kirim">
+  <div class="page-header">
+    <div class="logo-small">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" style="max-width:140px;width:100%;height:auto;">
+    </div>
+    <div class="page-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="30" width="55" height="35" rx="4" fill="#000"/>
+        <rect x="70" y="40" width="15" height="25" rx="3" fill="#000"/>
+        <circle cx="32" cy="70" r="8" fill="#000"/>
+        <circle cx="32" cy="70" r="4" fill="#fff"/>
+        <circle cx="75" cy="70" r="8" fill="#000"/>
+        <circle cx="75" cy="70" r="4" fill="#fff"/>
+        <text x="28" y="52" fill="#fff" font-size="16" font-weight="bold">♻</text>
+      </svg>
+    </div>
+    <div class="page-title">AYO KIRIM SAMPAH ORGANIK ANDA!</div>
+  </div>
+  <div class="form-section">
+    <div class="form-card">
+      <h3>Pilih kendaraan pengiriman Anda</h3>
+      <div class="sub">Tolong perhatikan rekomendasi</div>
+      <div class="vehicle-grid">
+        <div class="vehicle-option selected" onclick="selectVehicle(this,'motor')">
+          <div class="v-name">Motor</div>
+          <div class="v-range">1-140 L</div>
+          <svg viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="38" r="8" fill="#000"/>
+            <circle cx="18" cy="38" r="3" fill="#fff"/>
+            <circle cx="62" cy="38" r="8" fill="#000"/>
+            <circle cx="62" cy="38" r="3" fill="#fff"/>
+            <path d="M18 38 L30 20 L45 20 L50 30 L62 38" stroke="#000" stroke-width="3" fill="none"/>
+            <path d="M30 20 L25 14 L35 14" stroke="#000" stroke-width="2.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="vehicle-option" onclick="selectVehicle(this,'mobil')">
+          <div class="v-name">Mobil pick-up</div>
+          <div class="v-range">9rb – 1,5 jt L</div>
+          <svg viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="15" width="50" height="22" rx="3" fill="#000"/>
+            <rect x="55" y="22" width="20" height="15" rx="2" fill="#000"/>
+            <circle cx="20" cy="40" r="6" fill="#000"/>
+            <circle cx="20" cy="40" r="2.5" fill="#fff"/>
+            <circle cx="62" cy="40" r="6" fill="#000"/>
+            <circle cx="62" cy="40" r="2.5" fill="#fff"/>
+            <rect x="58" y="24" width="14" height="8" rx="1" fill="#fff" opacity="0.3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>Masukkan alamat penjemputan</h3>
+      <div class="form-group" style="margin-top:10px;">
+        <input type="text" placeholder="" id="alamat">
+      </div>
+    </div>
+
+    <div class="form-card" style="position:relative;">
+      <h3>Lapak KomposKita yang dituju:</h3>
+      <div class="form-group" style="margin-top:10px;">
+        <input type="text" placeholder="Ketik nama lapak..." id="lapak-tujuan" oninput="filterLapak()" onfocus="filterLapak()">
+      </div>
+      <div class="lapak-dropdown" id="lapak-dropdown"></div>
+    </div>
+
+    <div style="padding:0 0 4px;">
+      <h3 style="font-size:16px;font-weight:900;">Ongkos:</h3>
+    </div>
+    <div class="ongkos-row">
+      <div class="ongkos-display" id="ongkos-display">-</div>
+      <button class="btn-kirim" onclick="kirimSampah()">Kirim!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LAPAK TERDEKAT ===== -->
+<div class="page" id="page-lapak">
+  <div class="page-header">
+    <div class="logo-small">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" style="max-width:140px;width:100%;height:auto;">
+    </div>
+    <div class="page-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="40" width="50" height="45" rx="4" fill="#000"/>
+        <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+        <circle cx="65" cy="32" r="12" fill="#e53935"/>
+        <path d="M65 25v14M58 32h14" stroke="#fff" stroke-width="3"/>
+        <text x="35" y="76" fill="#fff" font-size="18" font-weight="bold">♻</text>
+      </svg>
+    </div>
+    <div class="page-title">LAPAK KOMPOSKITA TERDEKAT</div>
+  </div>
+  <div class="card-list" id="lapak-list">
+    <div class="info-card lapak-card" onclick="showLapakDetail('goalpara')" data-lapak="goalpara">
+      <div class="card-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="40" width="50" height="45" rx="4" fill="#000"/>
+          <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+          <text x="35" y="76" fill="#fff" font-size="18" font-weight="bold">♻</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Goalpara KomposKita</h3>
+        <p>1 km<br>Layanan: Tukar sampah organik, beli kompos, kirim sampah organik</p>
+      </div>
+    </div>
+    <div class="info-card lapak-card" onclick="showLapakDetail('selabintana')" data-lapak="selabintana">
+      <div class="card-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="40" width="50" height="45" rx="4" fill="#000"/>
+          <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+          <text x="35" y="76" fill="#fff" font-size="18" font-weight="bold">♻</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Selabintana KomposKita</h3>
+        <p>2 km<br>Layanan: Tukar sampah organik, beli kompos, kirim sampah organik</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lapak-detail" id="lapak-detail" style="display:none;padding:0 16px 16px;">
+    <div class="form-card">
+      <h3 id="lapak-detail-name">Goalpara KomposKita</h3>
+      <div class="lapak-info" id="lapak-detail-info"></div>
+      <button class="btn-beli" onclick="closeLapakDetail()" style="margin-top:12px;">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TUKAR SAMPAH ===== -->
+<div class="page" id="page-tukar">
+  <div class="page-header">
+    <div class="logo-small">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" style="max-width:140px;width:100%;height:auto;">
+    </div>
+    <div class="page-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
+        <rect x="30" y="30" width="40" height="8" rx="3" fill="#000"/>
+        <ellipse cx="50" cy="32" rx="16" ry="4" fill="#000"/>
+        <circle cx="42" cy="28" r="3" fill="#000"/>
+        <circle cx="50" cy="25" r="3" fill="#000"/>
+        <circle cx="58" cy="28" r="3" fill="#000"/>
+      </svg>
+    </div>
+    <div class="page-title">TUKAR SAMPAH ORGANIK</div>
+  </div>
+  <div class="card-list" id="tukar-list">
+    <div class="info-card tukar-card" onclick="selectSampah('hijau')" data-sampah="hijau">
+      <div class="card-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
+          <rect x="30" y="30" width="40" height="8" rx="3" fill="#000"/>
+          <ellipse cx="50" cy="32" rx="16" ry="4" fill="#000"/>
+          <circle cx="42" cy="28" r="3" fill="#000"/>
+          <circle cx="50" cy="25" r="3" fill="#000"/>
+          <circle cx="58" cy="28" r="3" fill="#000"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Sampah Hijau</h3>
+        <p>Rp2.000/kg<br><span class="arrow">→</span> Harga lapak terdekat: KomposKita Goalpara</p>
+      </div>
+    </div>
+    <div class="info-card tukar-card" onclick="selectSampah('coklat')" data-sampah="coklat">
+      <div class="card-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="35" width="50" height="45" rx="6" fill="#000"/>
+          <rect x="30" y="30" width="40" height="8" rx="3" fill="#000"/>
+          <ellipse cx="50" cy="32" rx="16" ry="4" fill="#000"/>
+          <circle cx="42" cy="28" r="3" fill="#000"/>
+          <circle cx="50" cy="25" r="3" fill="#000"/>
+          <circle cx="58" cy="28" r="3" fill="#000"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Sampah coklat (kering)</h3>
+        <p>Rp3.000/kg<br><span class="arrow">→</span> Harga lapak terdekat: KomposKita Goalpara</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tukar-form" id="tukar-form" style="display:none;padding:0 16px 16px;">
+    <div class="form-card">
+      <h3 id="tukar-title">Sampah Hijau</h3>
+      <div class="sub" id="tukar-sub">Pilih berapa kg sampah yang ingin ditukar</div>
+
+      <div class="form-group">
+        <label>Jumlah (kg)</label>
+        <input type="number" id="tukar-jumlah" value="1" min="0.5" step="0.5" oninput="updateTukar()">
+      </div>
+
+      <div class="form-group">
+        <label>Tukar dengan</label>
+        <div class="slider-labels">
+          <span>Uang penuh</span>
+          <span>Campuran</span>
+          <span>Kompos/POC penuh</span>
+        </div>
+        <input type="range" id="tukar-slider" min="0" max="100" value="0" oninput="updateTukar()" class="beli-slider">
+        <div class="slider-desc" id="tukar-slider-desc">Tukar sepenuhnya dengan uang</div>
+      </div>
+
+      <div class="form-group">
+        <label>Ringkasan Penukaran</label>
+        <div class="ringkasan-box" id="tukar-ringkasan">
+          <p id="tukar-ringkasan-text"></p>
+        </div>
+      </div>
+
+      <button class="btn-beli" onclick="tukarSampah()">Tukar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BANTUAN ===== -->
+<div class="page" id="page-bantuan">
+  <div class="page-header">
+    <div class="logo-small">
+      <img src="UI%20komposkita/Logo%20kompos%20kita.png" alt="KomposKita" style="max-width:140px;width:100%;height:auto;">
+    </div>
+    <div class="page-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 70 C30 70 35 50 50 50 C65 50 70 70 70 70" stroke="#000" stroke-width="4" fill="none"/>
+        <path d="M50 50 V25" stroke="#000" stroke-width="3"/>
+        <path d="M40 35 C40 25 60 25 60 35" stroke="#000" stroke-width="3" fill="none"/>
+        <ellipse cx="38" cy="20" rx="6" ry="4" fill="#000" transform="rotate(-20 38 20)"/>
+        <ellipse cx="62" cy="20" rx="6" ry="4" fill="#000" transform="rotate(20 62 20)"/>
+      </svg>
+    </div>
+    <div class="page-title">BANTUAN</div>
+  </div>
+  <div class="card-list">
+    <div class="info-card" style="flex-direction:column;align-items:flex-start;gap:0;">
+      <h3 style="font-size:16px;font-weight:900;margin-bottom:8px;">Apa itu KomposKita?</h3>
+      <p style="font-size:13px;color:var(--textsub);line-height:1.6;">KomposKita adalah platform yang menghubungkan masyarakat untuk menukarkan sampah organik menjadi kompos, serta membeli kompos berkualitas dari lapak terdekat.</p>
+    </div>
+    <div class="info-card" style="flex-direction:column;align-items:flex-start;gap:0;">
+      <h3 style="font-size:16px;font-weight:900;margin-bottom:8px;">Bagaimana cara menukar sampah?</h3>
+      <p style="font-size:13px;color:var(--textsub);line-height:1.6;">Bawa sampah organik Anda ke lapak KomposKita terdekat. Tim kami akan menimbang dan memberikan kompensasi berupa uang atau kompos.</p>
+    </div>
+    <div class="info-card" style="flex-direction:column;align-items:flex-start;gap:0;">
+      <h3 style="font-size:16px;font-weight:900;margin-bottom:8px;">Hubungi Kami</h3>
+      <p style="font-size:13px;color:var(--textsub);line-height:1.6;">Email: hello@komposkita.id<br>Telepon: +62 812-3456-7890</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BOTTOM NAV ===== -->
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="navTo('aktivitas')" data-nav="aktivitas">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 6 L33 28 H7 Z" stroke="#000" stroke-width="2.5" fill="none"/>
+      <path d="M20 6 L12 20 H28 Z" stroke="#000" stroke-width="2" fill="none"/>
+      <path d="M15 22 C15 18 25 18 25 22 C25 26 15 26 15 22Z" stroke="#000" stroke-width="1.5" fill="none"/>
+      <circle cx="20" cy="13" r="2" fill="#000"/>
+      <path d="M20 15v4" stroke="#000" stroke-width="1.5"/>
+    </svg>
+    <span>Aktivitasmu</span>
+  </div>
+  <div class="nav-item" onclick="navTo('beranda')" data-nav="beranda">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 22 L20 8 L35 22" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8 20 V34 H16 V26 H24 V34 H32 V20" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Beranda</span>
+  </div>
+  <div class="nav-item" onclick="navTo('bantuan')" data-nav="bantuan">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 28 C12 28 14 20 20 20 C26 20 28 28 28 28" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M20 20 V12" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 14 C16 10 20 8 20 8 C20 8 24 10 24 14" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M14 16 C10 14 10 10 14 10" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M26 16 C30 14 30 10 26 10" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M12 28 C12 30 14 32 20 32 C26 32 28 30 28 28" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span>Bantuan</span>
+  </div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Berhasil!</h3>
+    <p id="modal-msg">Pengiriman sampah hijau Anda telah diterima.</p>
+    <button onclick="closeModal()">Tutup</button>
+  </div>
+</div>
+
+<script>
+let currentPage='aktivitas';
+const pageMap={
+  'aktivitas':'page-aktivitas',
+  'beranda':'page-beranda',
+  'bantuan':'page-bantuan'
+};
+
+const produkData={
+  'kompos-kering':{name:'Kompos Kering',harga:5000,waste:2,unit:'kg',asal:'KomposKita Goalpara'},
+  'poc':{name:'Pupuk Organik Cair (POC)',harga:20000,waste:2,unit:'L',asal:'KomposKita Goalpara'}
+};
+
+const lapakData=[
+  {id:'goalpara',name:'Goalpara KomposKita',dist:'1 km',addr:'Jl. Raya Goalpara No. 45, Kec. Ciampea, Kab. Bogor',cp:'+62 812-9876-1234',layanan:'Tukar sampah organik, Beli kompos, Kirim sampah organik'},
+  {id:'selabintana',name:'Selabintana KomposKita',dist:'2 km',addr:'Jl. Selabintana No. 12, Kec. Ciampea, Kab. Bogor',cp:'+62 813-4567-8901',layanan:'Tukar sampah organik, Beli kompos, Kirim sampah organik'}
+];
+
+const ongkirTarif={
+  'motor':{1:2000,2:3000},
+  'mobil':{1:3000,2:4000}
+};
+
+const sampahData={
+  'hijau':{name:'Sampah Hijau',harga:2000,rasio:2},
+  'coklat':{name:'Sampah Coklat (kering)',harga:3000,rasio:3}
+};
+
+let selectedProduct=null;
+let selectedSampah=null;
+let selectedVehicle='motor';
+let selectedLapak=null;
+
+function navTo(nav){
+  currentPage=nav;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(pageMap[nav]).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelector(`[data-nav="${nav}"]`).classList.add('active');
+}
+
+function navigateTo(pageId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(pageId==='page-beli') resetBeliForm();
+  if(pageId==='page-tukar') resetTukarForm();
+  if(pageId==='page-kirim') resetKirimForm();
+}
+
+function toggleCheck(el){
+  el.classList.toggle('checked');
+}
+
+/* ===== KIRIM SAMPAH ===== */
+function selectVehicle(el,type){
+  selectedVehicle=type;
+  document.querySelectorAll('.vehicle-option').forEach(v=>v.classList.remove('selected'));
+  el.classList.add('selected');
+  updateOngkir();
+}
+
+function filterLapak(){
+  const val=document.getElementById('lapak-tujuan').value.toLowerCase();
+  const dd=document.getElementById('lapak-dropdown');
+  const filtered=lapakData.filter(l=>l.name.toLowerCase().includes(val));
+  if(val.length===0||filtered.length===0){dd.classList.remove('show');return;}
+  dd.innerHTML=filtered.map(l=>`<div class="lapak-dropdown-item" onclick="pilihLapak('${l.id}')">${l.name}<div class="lapak-dist">${l.dist}</div></div>`).join('');
+  dd.classList.add('show');
+}
+
+function pilihLapak(id){
+  const l=lapakData.find(x=>x.id===id);
+  selectedLapak=l;
+  document.getElementById('lapak-tujuan').value=l.name;
+  document.getElementById('lapak-dropdown').classList.remove('show');
+  updateOngkir();
+}
+
+function updateOngkir(){
+  if(!selectedLapak)return;
+  const distNum=parseInt(selectedLapak.dist);
+  const tarif=ongkirTarif[selectedVehicle][distNum];
+  document.getElementById('ongkos-display').textContent=tarif?'Rp'+tarif.toLocaleString('id-ID'):'-';
+}
+
+function kirimSampah(){
+  const alamat=document.getElementById('alamat').value.trim();
+  if(!selectedLapak||!alamat){
+    document.getElementById('modal-title').textContent='Peringatan';
+    document.getElementById('modal-msg').textContent='Harap isi alamat penjemputan dan pilih lapak tujuan.';
+    document.getElementById('modal').classList.add('show');
+    return;
+  }
+  const distNum=parseInt(selectedLapak.dist);
+  const tarif=ongkirTarif[selectedVehicle][distNum];
+  const vName=selectedVehicle==='motor'?'Motor':'Mobil pick-up';
+
+  let detail=`Kendaraan: ${vName}<br>Alamat: ${alamat}<br>Lapak tujuan: ${selectedLapak.name}<br>Jarak: ${selectedLapak.dist}`;
+  if(tarif) detail+=`<br>Ongkos: Rp${tarif.toLocaleString('id-ID')}`;
+
+  addAktivitas('Pengiriman Sampah',detail);
+  resetKirimForm();
+  navTo('beranda');
+}
+
+function resetKirimForm(){
+  selectedLapak=null;
+  document.getElementById('alamat').value='';
+  document.getElementById('lapak-tujuan').value='';
+  document.getElementById('ongkos-display').textContent='-';
+  document.getElementById('lapak-dropdown').classList.remove('show');
+}
+
+/* ===== BELI KOMPOS ===== */
+function selectProduct(product){
+  selectedProduct=product;
+  document.querySelectorAll('.beli-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-product="${product}"]`).classList.add('selected');
+
+  const form=document.getElementById('purchase-form');
+  form.style.display='block';
+  document.getElementById('purchase-title').textContent=produkData[product].name;
+  document.getElementById('purchase-sub').textContent='Pilih jumlah yang ingin dibeli';
+
+  const slider=document.getElementById('beli-slider');
+  slider.value=0;
+  slider.style.setProperty('--val','0%');
+  document.getElementById('beli-jumlah').value=1;
+  updateHarga();
+
+  setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function updateHarga(){
+  if(!selectedProduct)return;
+  const p=produkData[selectedProduct];
+  const jumlah=parseFloat(document.getElementById('beli-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('beli-slider').value);
+
+  document.getElementById('beli-slider').style.setProperty('--val',sliderVal+'%');
+
+  const uangPersen=(100-sliderVal)/100;
+  const limbahPersen=sliderVal/100;
+
+  const bayarUang=Math.round(p.harga*jumlah*uangPersen);
+  const bayarLimbah=(p.waste*jumlah*limbahPersen).toFixed(1);
+
+  let desc='';
+  if(sliderVal===0) desc='Bayar sepenuhnya dengan uang';
+  else if(sliderVal===100) desc='Bayar sepenuhnya dengan limbah hijau';
+  else desc='Campuran: bayar sebagian uang, sebagian limbah hijau';
+  document.getElementById('slider-desc').textContent=desc;
+
+  let ringkasan='';
+  if(bayarUang>0) ringkasan+=`Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(bayarLimbah>0){if(ringkasan) ringkasan+='<br>';ringkasan+=`Bayar limbah: ${bayarLimbah} kg limbah hijau`;}
+  if(!ringkasan) ringkasan='Bayar: Rp0';
+  document.getElementById('ringkasan-text').innerHTML=ringkasan;
+}
+
+function resetBeliForm(){
+  selectedProduct=null;
+  document.querySelectorAll('.beli-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('purchase-form').style.display='none';
+}
+
+function beliKompos(){
+  if(!selectedProduct)return;
+  const p=produkData[selectedProduct];
+  const jumlah=parseFloat(document.getElementById('beli-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('beli-slider').value);
+
+  const uangPersen=(100-sliderVal)/100;
+  const limbahPersen=sliderVal/100;
+
+  const bayarUang=Math.round(p.harga*jumlah*uangPersen);
+  const bayarLimbah=(p.waste*jumlah*limbahPersen).toFixed(1);
+
+  let metode='';
+  if(sliderVal===0) metode='Langsung';
+  else if(sliderVal===100) metode='Tukar limbah';
+  else metode='Campuran';
+
+  let detail=`${p.name}: ${jumlah} ${p.unit}<br>Lapak: ${p.asal}<br>Metode: ${metode}`;
+  if(bayarUang>0) detail+=`<br>Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(bayarLimbah>0) detail+=`<br>Bayar limbah: ${bayarLimbah} kg limbah hijau`;
+
+  addAktivitas('Pembelian Kompos',detail);
+  resetBeliForm();
+  navTo('beranda');
+}
+
+/* ===== TUKAR SAMPAH ===== */
+function selectSampah(type){
+  selectedSampah=type;
+  document.querySelectorAll('.tukar-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-sampah="${type}"]`).classList.add('selected');
+
+  const form=document.getElementById('tukar-form');
+  form.style.display='block';
+  document.getElementById('tukar-title').textContent=sampahData[type].name;
+  document.getElementById('tukar-sub').textContent='Pilih berapa kg sampah yang ingin ditukar';
+
+  const slider=document.getElementById('tukar-slider');
+  slider.value=0;
+  slider.style.setProperty('--val','0%');
+  document.getElementById('tukar-jumlah').value=1;
+  updateTukar();
+
+  setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function updateTukar(){
+  if(!selectedSampah)return;
+  const s=sampahData[selectedSampah];
+  const jumlah=parseFloat(document.getElementById('tukar-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('tukar-slider').value);
+
+  document.getElementById('tukar-slider').style.setProperty('--val',sliderVal+'%');
+
+  const uangPersen=(100-sliderVal)/100;
+  const komposPersen=sliderVal/100;
+
+  const totalHarga=s.harga*jumlah;
+  const bayarUang=Math.round(totalHarga*uangPersen);
+  const komposDidapat=(jumlah/s.rasio*komposPersen).toFixed(1);
+
+  let desc='';
+  if(sliderVal===0) desc='Tukar sepenuhnya dengan uang';
+  else if(sliderVal===100) desc=`Tukar sepenuhnya dengan kompos/POC`;
+  else desc='Campuran: sebagian uang, sebagian kompos/POC';
+  document.getElementById('tukar-slider-desc').textContent=desc;
+
+  let ringkasan=`Total nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>`;
+  if(bayarUang>0) ringkasan+=`Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}<br>`;
+  if(komposDidapat>0) ringkasan+=`Dapat kompos/POC: ${komposDidapat} kg/L`;
+  document.getElementById('tukar-ringkasan-text').innerHTML=ringkasan;
+}
+
+function resetTukarForm(){
+  selectedSampah=null;
+  document.querySelectorAll('.tukar-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('tukar-form').style.display='none';
+}
+
+function tukarSampah(){
+  if(!selectedSampah)return;
+  const s=sampahData[selectedSampah];
+  const jumlah=parseFloat(document.getElementById('tukar-jumlah').value)||0;
+  const sliderVal=parseInt(document.getElementById('tukar-slider').value);
+
+  const uangPersen=(100-sliderVal)/100;
+  const komposPersen=sliderVal/100;
+
+  const totalHarga=s.harga*jumlah;
+  const bayarUang=Math.round(totalHarga*uangPersen);
+  const komposDidapat=(jumlah/s.rasio*komposPersen).toFixed(1);
+
+  let metode='';
+  if(sliderVal===0) metode='Uang penuh';
+  else if(sliderVal===100) metode='Kompos/POC penuh';
+  else metode='Campuran';
+
+  let detail=`Jenis: ${s.name}<br>Berat: ${jumlah} kg<br>Nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>Metode: ${metode}`;
+  if(bayarUang>0) detail+=`<br>Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}`;
+  if(komposDidapat>0) detail+=`<br>Dapat kompos/POC: ${komposDidapat} kg/L`;
+  detail+=`<br>Lapak: KomposKita Goalpara`;
+
+  addAktivitas('Penukaran Limbah',detail);
+  resetTukarForm();
+  navTo('beranda');
+}
+
+/* ===== LAPAK ===== */
+function showLapakDetail(id){
+  const l=lapakData.find(x=>x.id===id);
+  document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-lapak="${id}"]`).classList.add('selected');
+
+  const detail=document.getElementById('lapak-detail');
+  detail.style.display='block';
+  document.getElementById('lapak-detail-name').textContent=l.name;
+  document.getElementById('lapak-detail-info').innerHTML=`
+    <p><strong>Alamat:</strong><br>${l.addr}</p>
+    <p><strong>Telepon:</strong><br>${l.cp}</p>
+    <p><strong>Jarak:</strong> ${l.dist}</p>
+    <p><strong>Layanan:</strong><br>${l.layanan}</p>`;
+
+  setTimeout(()=>detail.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function closeLapakDetail(){
+  document.getElementById('lapak-detail').style.display='none';
+  document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
+}
+
+/* ===== UTILS ===== */
+function addAktivitas(title,detailHtml){
+  const list=document.getElementById('aktivitas-list');
+  const card=document.createElement('div');
+  card.className='info-card';
+  card.innerHTML=`
+    <div class="card-icon">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" stroke="#000" stroke-width="4" fill="none"/>
+        <path d="M35 50 L50 35 L65 50 L50 65 Z" stroke="#000" stroke-width="3" fill="none"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>${title}</h3>
+      <p>${detailHtml}</p>
+    </div>`;
+  list.prepend(card);
+}
+
+function showKirimModal(){
+  document.getElementById('modal-title').textContent='Berhasil!';
+  document.getElementById('modal-msg').textContent='Pengiriman sampah organik Anda telah diterima. Tim kami akan segera menjemput.';
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+}
+
+function mulaiAplikasi(){
+  const name=document.getElementById('splash-name').value.trim();
+  if(!name){
+    document.getElementById('splash-name').style.borderColor='#e53935';
+    return;
+  }
+  localStorage.setItem('komposkita_nama',name);
+  tampilkanBeranda();
+}
+
+function tampilkanBeranda(){
+  const nama=localStorage.getItem('komposkita_nama')||'';
+  const greeting=document.getElementById('greeting-text');
+  if(nama){
+    greeting.textContent='HALO '+nama.toUpperCase()+' SELAMAT DATANG KEMBALI DI';
+  }else{
+    greeting.textContent='HALO SELAMAT DATANG DI';
+  }
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-beranda').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelector('[data-nav="beranda"]').classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const nama=localStorage.getItem('komposkita_nama');
+  if(nama){
+    tampilkanBeranda();
+  }else{
+    document.getElementById('page-splash').classList.add('active');
+  }
+  updateHarga();
+
+  document.getElementById('splash-name').addEventListener('keydown',e=>{
+    if(e.key==='Enter') mulaiAplikasi();
+  });
+
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.form-card')){
+      document.getElementById('lapak-dropdown').classList.remove('show');
+    }
+  });
+});
+</script>
+</body>
+</html>
