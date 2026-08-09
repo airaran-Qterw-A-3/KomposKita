@@ -1589,9 +1589,11 @@ function kirimSampah(){
 }
 
 function confirmTransaction(){
-  if(!pendingTransaction)return;
-  addAktivitas(pendingTransaction.type,pendingTransaction.detail);
-  pendingTransaction=null;
+  try{
+    if(!pendingTransaction)return;
+    addAktivitas(pendingTransaction.type,pendingTransaction.detail);
+    pendingTransaction=null;
+  }catch(e){console.error('confirmTransaction error',e);}
   closeConfirmModal();
   closeLapakDetail();
   resetKirimForm();
@@ -1602,6 +1604,14 @@ function confirmTransaction(){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const navHome=document.querySelector('[data-nav="beranda"]');
   if(navHome) navHome.classList.add('active');
+}
+
+function closeConfirmModal(){
+  try{
+    const modal=document.getElementById('confirm-modal');
+    if(modal) modal.classList.remove('show');
+  }catch(e){console.error('closeConfirmModal error',e);}
+  pendingTransaction=null;
 }
 
 function resetKirimForm(){
