@@ -354,7 +354,7 @@ body{
   display:none;
   position:fixed;inset:0;
   background:rgba(0,0,0,0.4);
-  z-index:200;
+  z-index:9999;
   align-items:center;
   justify-content:center;
   padding:24px;
@@ -367,6 +367,7 @@ body{
   max-width:340px;
   width:100%;
   text-align:center;
+  z-index:10000;
 }
 .modal h3{font-size:18px;font-weight:900;margin-bottom:8px;}
 .modal p{font-size:14px;color:var(--textsub);margin-bottom:16px;line-height:1.5;}
@@ -379,6 +380,7 @@ body{
   font-size:15px;
   font-weight:700;
   cursor:pointer;
+  pointer-events:auto;
 }
 .modal button:active{transform:scale(0.96);}
 
