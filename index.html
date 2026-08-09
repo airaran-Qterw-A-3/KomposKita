@@ -691,49 +691,11 @@ body{
     <div class="page-title">AYO KIRIM SAMPAH ORGANIK ANDA!</div>
   </div>
   <div class="form-section">
-    <div class="form-card">
-      <h3>Pilih kendaraan pengiriman Anda</h3>
-      <div class="sub">Tolong perhatikan rekomendasi</div>
-      <div class="vehicle-grid">
-        <div class="vehicle-option selected" onclick="selectVehicle(this,'motor')">
-          <div class="v-name">Motor</div>
-          <div class="v-range">1-140 L</div>
-          <svg viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="18" cy="38" r="8" fill="#000"/>
-            <circle cx="18" cy="38" r="3" fill="#fff"/>
-            <circle cx="62" cy="38" r="8" fill="#000"/>
-            <circle cx="62" cy="38" r="3" fill="#fff"/>
-            <path d="M18 38 L30 20 L45 20 L50 30 L62 38" stroke="#000" stroke-width="3" fill="none"/>
-            <path d="M30 20 L25 14 L35 14" stroke="#000" stroke-width="2.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="vehicle-option" onclick="selectVehicle(this,'mobil')">
-          <div class="v-name">Mobil pick-up</div>
-          <div class="v-range">9rb – 1,5 jt L</div>
-          <svg viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="5" y="15" width="50" height="22" rx="3" fill="#000"/>
-            <rect x="55" y="22" width="20" height="15" rx="2" fill="#000"/>
-            <circle cx="20" cy="40" r="6" fill="#000"/>
-            <circle cx="20" cy="40" r="2.5" fill="#fff"/>
-            <circle cx="62" cy="40" r="6" fill="#000"/>
-            <circle cx="62" cy="40" r="2.5" fill="#fff"/>
-            <rect x="58" y="24" width="14" height="8" rx="1" fill="#fff" opacity="0.3"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-card">
-      <h3>Masukkan alamat penjemputan</h3>
-      <div class="form-group" style="margin-top:10px;">
-        <input type="text" placeholder="" id="alamat">
-      </div>
-    </div>
-
     <div class="form-card" style="position:relative;">
       <h3>Lapak KomposKita yang dituju:</h3>
-      <div class="form-group" style="margin-top:10px;">
-        <input type="text" placeholder="Ketik nama lapak..." id="lapak-tujuan" oninput="filterLapak()" onfocus="filterLapak()" onchange="onSendStallSelected()">
+      <div class="form-group" style="margin-top:10px;position:relative;">
+        <input type="text" placeholder="Ketik nama lapak..." id="lapak-tujuan" oninput="filterLapak()" onfocus="filterLapak()" onchange="onSendStallSelected()" style="padding-right:40px;">
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:12px;color:var(--textsub);">▼</span>
       </div>
       <div class="lapak-dropdown" id="lapak-dropdown"></div>
     </div>
@@ -892,6 +854,45 @@ body{
         <div class="ringkasan-box" id="send-ringkasan-box">
           <p id="send-ringkasan-text"></p>
         </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>Pilih kendaraan pengiriman Anda</h3>
+      <div class="sub">Tolong perhatikan rekomendasi</div>
+      <div class="vehicle-grid">
+        <div class="vehicle-option selected" onclick="selectVehicle(this,'motor')">
+          <div class="v-name">Motor</div>
+          <div class="v-range">1-140 L</div>
+          <svg viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="38" r="8" fill="#000"/>
+            <circle cx="18" cy="38" r="3" fill="#fff"/>
+            <circle cx="62" cy="38" r="8" fill="#000"/>
+            <circle cx="62" cy="38" r="3" fill="#fff"/>
+            <path d="M18 38 L30 20 L45 20 L50 30 L62 38" stroke="#000" stroke-width="3" fill="none"/>
+            <path d="M30 20 L25 14 L35 14" stroke="#000" stroke-width="2.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="vehicle-option" onclick="selectVehicle(this,'mobil')">
+          <div class="v-name">Mobil pick-up</div>
+          <div class="v-range">9rb – 1,5 jt L</div>
+          <svg viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="15" width="50" height="22" rx="3" fill="#000"/>
+            <rect x="55" y="22" width="20" height="15" rx="2" fill="#000"/>
+            <circle cx="20" cy="40" r="6" fill="#000"/>
+            <circle cx="20" cy="40" r="2.5" fill="#fff"/>
+            <circle cx="62" cy="40" r="6" fill="#000"/>
+            <circle cx="62" cy="40" r="2.5" fill="#fff"/>
+            <rect x="58" y="24" width="14" height="8" rx="1" fill="#fff" opacity="0.3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>Masukkan alamat penjemputan</h3>
+      <div class="form-group" style="margin-top:10px;">
+        <input type="text" placeholder="" id="alamat">
       </div>
     </div>
 
@@ -1364,7 +1365,7 @@ function filterLapak(){
   const val=document.getElementById('lapak-tujuan').value.toLowerCase();
   const dd=document.getElementById('lapak-dropdown');
   const filtered=lapakData.filter(l=>l.name.toLowerCase().includes(val));
-  if(val.length===0||filtered.length===0){dd.classList.remove('show');return;}
+  if(filtered.length===0){dd.classList.remove('show');return;}
   dd.innerHTML=filtered.map(l=>`<div class="lapak-dropdown-item" onclick="pilihLapak('${l.id}')">${l.name}<div class="lapak-dist">${l.dist}</div></div>`).join('');
   dd.classList.add('show');
 }
@@ -1585,14 +1586,22 @@ function resetKirimForm(){
   selectedSendAction=null;
   selectedSendWaste=null;
   selectedSendProduct=null;
-  document.getElementById('alamat').value='';
-  document.getElementById('lapak-tujuan').value='';
-  document.getElementById('ongkos-display').textContent='-';
-  document.getElementById('lapak-dropdown').classList.remove('show');
-  document.getElementById('send-action-section').style.display='none';
-  document.getElementById('send-exchange-form').style.display='none';
-  document.getElementById('send-buy-form').style.display='none';
-  document.getElementById('send-summary').style.display='none';
+  const alamat=document.getElementById('alamat');
+  const lapakTujuan=document.getElementById('lapak-tujuan');
+  const ongkosDisplay=document.getElementById('ongkos-display');
+  const lapakDropdown=document.getElementById('lapak-dropdown');
+  const sendActionSection=document.getElementById('send-action-section');
+  const sendExchangeForm=document.getElementById('send-exchange-form');
+  const sendBuyForm=document.getElementById('send-buy-form');
+  const sendSummary=document.getElementById('send-summary');
+  if(alamat) alamat.value='';
+  if(lapakTujuan) lapakTujuan.value='';
+  if(ongkosDisplay) ongkosDisplay.textContent='-';
+  if(lapakDropdown) lapakDropdown.classList.remove('show');
+  if(sendActionSection) sendActionSection.style.display='none';
+  if(sendExchangeForm) sendExchangeForm.style.display='none';
+  if(sendBuyForm) sendBuyForm.style.display='none';
+  if(sendSummary) sendSummary.style.display='none';
 }
 
 /* ===== BELI KOMPOS ===== */
@@ -1775,11 +1784,15 @@ function showLapakDetail(id){
 }
 
 function closeLapakDetail(){
-  document.getElementById('lapak-detail').style.display='none';
+  const lapakDetail=document.getElementById('lapak-detail');
+  const stallExchangeForm=document.getElementById('stall-exchange-form');
+  const stallBuyForm=document.getElementById('stall-buy-form');
+  const lapakCloseBtn=document.getElementById('lapak-close-btn');
+  if(lapakDetail) lapakDetail.style.display='none';
+  if(stallExchangeForm) stallExchangeForm.style.display='none';
+  if(stallBuyForm) stallBuyForm.style.display='none';
+  if(lapakCloseBtn) lapakCloseBtn.textContent='Tutup';
   document.querySelectorAll('.lapak-card').forEach(c=>c.classList.remove('selected'));
-  document.getElementById('stall-exchange-form').style.display='none';
-  document.getElementById('stall-buy-form').style.display='none';
-  document.getElementById('lapak-close-btn').textContent='Tutup';
   selectedStallAction=null;
   selectedStallWaste=null;
   selectedStallProduct=null;
