@@ -450,6 +450,11 @@ body{
 .tukar-card:active{transform:scale(0.97);}
 .tukar-card.selected{border-color:var(--green1);}
 
+/* ===== EXCHANGE CARD ===== */
+.exchange-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.exchange-card:active{transform:scale(0.97);}
+.exchange-card.selected{border-color:var(--green1);}
+
 /* ===== LAPAK CARD ===== */
 .lapak-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
 .lapak-card:active{transform:scale(0.97);}
@@ -1426,20 +1431,30 @@ function showSendAction(action){
 function selectSendWaste(type){
   selectedSendWaste=type;
   document.querySelectorAll('#send-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector(`#send-exchange-form [data-waste="${type}"]`).classList.add('selected');
-  document.getElementById('send-tukar-slider').value=0;
-  document.getElementById('send-tukar-slider').style.setProperty('--val','0%');
-  document.getElementById('send-tukar-jumlah').value=1;
+  const card=document.querySelector(`#send-exchange-form [data-waste="${type}"]`);
+  if(card) card.classList.add('selected');
+  const slider=document.getElementById('send-tukar-slider');
+  if(slider){
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+  }
+  const jumlah=document.getElementById('send-tukar-jumlah');
+  if(jumlah) jumlah.value=1;
   updateSendSummary();
 }
 
 function selectSendProduct(product){
   selectedSendProduct=product;
   document.querySelectorAll('#send-buy-form .beli-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector(`#send-buy-form [data-product="${product}"]`).classList.add('selected');
-  document.getElementById('send-beli-slider').value=0;
-  document.getElementById('send-beli-slider').style.setProperty('--val','0%');
-  document.getElementById('send-beli-jumlah').value=1;
+  const card=document.querySelector(`#send-buy-form [data-product="${product}"]`);
+  if(card) card.classList.add('selected');
+  const slider=document.getElementById('send-beli-slider');
+  if(slider){
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+  }
+  const jumlah=document.getElementById('send-beli-jumlah');
+  if(jumlah) jumlah.value=1;
   updateSendSummary();
 }
 
@@ -1578,7 +1593,13 @@ function confirmTransaction(){
   closeConfirmModal();
   closeLapakDetail();
   resetKirimForm();
-  navTo('beranda');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const beranda=document.getElementById('page-beranda');
+  if(beranda) beranda.classList.add('active');
+  currentPage='beranda';
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navHome=document.querySelector('[data-nav="beranda"]');
+  if(navHome) navHome.classList.add('active');
 }
 
 function resetKirimForm(){
@@ -1608,20 +1629,26 @@ function resetKirimForm(){
 function selectProduct(product){
   selectedProduct=product;
   document.querySelectorAll('.beli-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector(`[data-product="${product}"]`).classList.add('selected');
+  const card=document.querySelector(`[data-product="${product}"]`);
+  if(card) card.classList.add('selected');
 
   const form=document.getElementById('purchase-form');
-  form.style.display='block';
-  document.getElementById('purchase-title').textContent=produkData[product].name;
-  document.getElementById('purchase-sub').textContent='Pilih jumlah yang ingin dibeli';
+  if(form) form.style.display='block';
+  const title=document.getElementById('purchase-title');
+  if(title) title.textContent=produkData[product].name;
+  const sub=document.getElementById('purchase-sub');
+  if(sub) sub.textContent='Pilih jumlah yang ingin dibeli';
 
   const slider=document.getElementById('beli-slider');
-  slider.value=0;
-  slider.style.setProperty('--val','0%');
-  document.getElementById('beli-jumlah').value=1;
+  if(slider){
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+  }
+  const jumlah=document.getElementById('beli-jumlah');
+  if(jumlah) jumlah.value=1;
   updateHarga();
 
-  setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  if(form) setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
 
 function updateHarga(){
@@ -1687,20 +1714,26 @@ function beliKompos(){
 function selectSampah(type){
   selectedSampah=type;
   document.querySelectorAll('.tukar-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector(`[data-sampah="${type}"]`).classList.add('selected');
+  const card=document.querySelector(`[data-sampah="${type}"]`);
+  if(card) card.classList.add('selected');
 
   const form=document.getElementById('tukar-form');
-  form.style.display='block';
-  document.getElementById('tukar-title').textContent=sampahData[type].name;
-  document.getElementById('tukar-sub').textContent='Pilih berapa kg sampah yang ingin ditukar';
+  if(form) form.style.display='block';
+  const title=document.getElementById('tukar-title');
+  if(title) title.textContent=sampahData[type].name;
+  const sub=document.getElementById('tukar-sub');
+  if(sub) sub.textContent='Pilih berapa kg sampah yang ingin ditukar';
 
   const slider=document.getElementById('tukar-slider');
-  slider.value=0;
-  slider.style.setProperty('--val','0%');
-  document.getElementById('tukar-jumlah').value=1;
+  if(slider){
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+  }
+  const jumlah=document.getElementById('tukar-jumlah');
+  if(jumlah) jumlah.value=1;
   updateTukar();
 
-  setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  if(form) setTimeout(()=>form.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
 
 function updateTukar(){
@@ -1844,11 +1877,15 @@ function showStallAction(action){
 function selectStallWaste(type){
   selectedStallWaste=type;
   document.querySelectorAll('#stall-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector(`#stall-exchange-form [data-waste="${type}"]`).classList.add('selected');
+  const card=document.querySelector(`#stall-exchange-form [data-waste="${type}"]`);
+  if(card) card.classList.add('selected');
   const slider=document.getElementById('stall-tukar-slider');
-  slider.value=0;
-  slider.style.setProperty('--val','0%');
-  document.getElementById('stall-tukar-jumlah').value=1;
+  if(slider){
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+  }
+  const jumlah=document.getElementById('stall-tukar-jumlah');
+  if(jumlah) jumlah.value=1;
   updateStallTukar();
 }
 
@@ -1882,11 +1919,15 @@ function updateStallTukar(){
 function selectStallProduct(product){
   selectedStallProduct=product;
   document.querySelectorAll('#stall-buy-form .beli-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector(`#stall-buy-form [data-product="${product}"]`).classList.add('selected');
+  const card=document.querySelector(`#stall-buy-form [data-product="${product}"]`);
+  if(card) card.classList.add('selected');
   const slider=document.getElementById('stall-beli-slider');
-  slider.value=0;
-  slider.style.setProperty('--val','0%');
-  document.getElementById('stall-beli-jumlah').value=1;
+  if(slider){
+    slider.value=0;
+    slider.style.setProperty('--val','0%');
+  }
+  const jumlah=document.getElementById('stall-beli-jumlah');
+  if(jumlah) jumlah.value=1;
   updateStallBeli();
 }
 
