@@ -457,6 +457,11 @@ body{
 .exchange-card:active{transform:scale(0.97);}
 .exchange-card.selected{border-color:var(--green1);}
 
+/* ===== EXCHANGE PRODUCT CARD ===== */
+.exchange-product-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
+.exchange-product-card:active{transform:scale(0.97);}
+.exchange-product-card.selected{border-color:var(--green1);}
+
 /* ===== LAPAK CARD ===== */
 .lapak-card{cursor:pointer;transition:transform 0.2s,border-color 0.2s;border:3px solid transparent;}
 .lapak-card:active{transform:scale(0.97);}
@@ -798,6 +803,40 @@ body{
           <input type="range" id="send-tukar-slider" min="0" max="100" value="0" oninput="updateSendSummary()" class="beli-slider">
           <div class="slider-desc" id="send-tukar-slider-desc">Tukar sepenuhnya dengan uang</div>
         </div>
+
+        <div class="form-group" id="send-exchange-product-section" style="display:none;">
+          <label>Pilih jenis kompos/POC:</label>
+          <div class="card-list" style="padding:0;margin-bottom:14px;">
+            <div class="info-card exchange-product-card" onclick="selectSendExchangeProduct('kompos-kering')" data-product="kompos-kering">
+              <div class="card-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+                  <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+                  <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+                  <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3>Kompos Kering</h3>
+                <p>Rp5.000/kg</p>
+              </div>
+            </div>
+            <div class="info-card exchange-product-card" onclick="selectSendExchangeProduct('poc')" data-product="poc">
+              <div class="card-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+                  <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+                  <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+                  <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3>Pupuk Organik Cair (POC)</h3>
+                <p>Rp20.000/L</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -838,7 +877,7 @@ body{
         </div>
 
         <div class="form-group">
-          <label>Jumlah</label>
+          <label id="send-beli-jumlah-label">Jumlah</label>
           <input type="number" id="send-beli-jumlah" value="1" min="0.5" step="0.5" oninput="updateSendSummary()">
         </div>
 
@@ -1051,6 +1090,40 @@ body{
             <div class="slider-desc" id="stall-tukar-slider-desc">Tukar sepenuhnya dengan uang</div>
           </div>
 
+          <div class="form-group" id="stall-exchange-product-section" style="display:none;">
+            <label>Pilih jenis kompos/POC:</label>
+            <div class="card-list" style="padding:0;margin-bottom:14px;">
+              <div class="info-card exchange-product-card" onclick="selectStallExchangeProduct('kompos-kering')" data-product="kompos-kering">
+                <div class="card-icon">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+                    <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+                    <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+                    <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+                  </svg>
+                </div>
+                <div class="card-body">
+                  <h3>Kompos Kering</h3>
+                  <p>Rp5.000/kg</p>
+                </div>
+              </div>
+              <div class="info-card exchange-product-card" onclick="selectStallExchangeProduct('poc')" data-product="poc">
+                <div class="card-icon">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="25" y="40" width="50" height="40" rx="6" fill="#000"/>
+                    <rect x="30" y="36" width="40" height="6" rx="2" fill="#000"/>
+                    <path d="M40 55 C40 48 60 48 60 55 C60 62 40 62 40 55Z" stroke="#fff" stroke-width="2" fill="none"/>
+                    <path d="M55 30 C60 22 68 26 64 32 L60 38" stroke="#000" stroke-width="2.5" fill="none"/>
+                  </svg>
+                </div>
+                <div class="card-body">
+                  <h3>Pupuk Organik Cair (POC)</h3>
+                  <p>Rp20.000/L</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="form-group">
             <label>Ringkasan Penukaran</label>
             <div class="ringkasan-box" id="stall-tukar-ringkasan">
@@ -1100,7 +1173,7 @@ body{
           </div>
 
           <div class="form-group">
-            <label>Jumlah</label>
+            <label id="stall-beli-jumlah-label">Jumlah</label>
             <input type="number" id="stall-beli-jumlah" value="1" min="0.5" step="0.5" oninput="updateStallBeli()">
           </div>
 
@@ -1337,6 +1410,8 @@ let selectedLapak=null;
 let selectedSendAction=null;
 let selectedSendWaste=null;
 let selectedSendProduct=null;
+let selectedStallExchangeProduct=null;
+let selectedSendExchangeProduct=null;
 
 function navTo(nav){
   currentPage=nav;
@@ -1412,6 +1487,7 @@ function showSendAction(action){
   if(action==='exchange'){
     document.getElementById('send-exchange-form').style.display='block';
     selectedSendWaste=null;
+    selectedSendExchangeProduct=null;
     document.querySelectorAll('#send-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
     document.getElementById('send-tukar-slider').value=0;
     document.getElementById('send-tukar-slider').style.setProperty('--val','0%');
@@ -1432,6 +1508,7 @@ function showSendAction(action){
 
 function selectSendWaste(type){
   selectedSendWaste=type;
+  selectedSendExchangeProduct=null;
   document.querySelectorAll('#send-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
   const card=document.querySelector(`#send-exchange-form [data-waste="${type}"]`);
   if(card) card.classList.add('selected');
@@ -1442,6 +1519,14 @@ function selectSendWaste(type){
   }
   const jumlah=document.getElementById('send-tukar-jumlah');
   if(jumlah) jumlah.value=1;
+  updateSendSummary();
+}
+
+function selectSendExchangeProduct(product){
+  selectedSendExchangeProduct=product;
+  document.querySelectorAll('#send-exchange-form .exchange-product-card').forEach(c=>c.classList.remove('selected'));
+  const card=document.querySelector(`#send-exchange-form [data-product="${product}"]`);
+  if(card) card.classList.add('selected');
   updateSendSummary();
 }
 
@@ -1483,10 +1568,30 @@ function updateSendSummary(){
     else desc='Campuran: sebagian uang, sebagian kompos/POC';
     document.getElementById('send-tukar-slider-desc').textContent=desc;
 
+    const productSection=document.getElementById('send-exchange-product-section');
+    if(productSection){
+      if(komposPersen>0){
+        productSection.style.display='block';
+        if(!selectedSendExchangeProduct){
+          const firstCard=document.querySelector('#send-exchange-form .exchange-product-card');
+          if(firstCard) firstCard.classList.add('selected');
+          selectedSendExchangeProduct='kompos-kering';
+        }
+      }else{
+        productSection.style.display='none';
+        selectedSendExchangeProduct=null;
+        document.querySelectorAll('#send-exchange-form .exchange-product-card').forEach(c=>c.classList.remove('selected'));
+      }
+    }
+
     summary=`<strong>Yang Anda Dapat:</strong><br>`;
     if(bayarUang>0) summary+=`Uang: Rp${bayarUang.toLocaleString('id-ID')}<br>`;
-    if(komposDidapat>0) summary+=`Kompos/POC: ${komposDidapat} kg/L`;
-    summary+=`<br><br><strong>Ongkos kirim: Rp${tarif?tarif.toLocaleString('id-ID'):0}</strong>`;
+    if(komposDidapat>0){
+      const unit=selectedSendExchangeProduct==='poc'?'L':'kg';
+      const label=selectedSendExchangeProduct==='poc'?'POC':'Kompos Kering';
+      summary+=`${label}: ${komposDidapat} ${unit}<br>`;
+    }
+    summary+=`<br><strong>Ongkos kirim: Rp${tarif?tarif.toLocaleString('id-ID'):0}</strong>`;
   }else if(selectedSendAction==='buy' && selectedSendProduct){
     const p=produkData[selectedSendProduct];
     const jumlah=parseFloat(document.getElementById('send-beli-jumlah').value)||0;
@@ -1503,12 +1608,19 @@ function updateSendSummary(){
     else desc='Campuran: bayar sebagian uang, sebagian limbah hijau';
     document.getElementById('send-beli-slider-desc').textContent=desc;
 
+    const unitLabel=p.unit==='L'?'L limbah hijau':'kg limbah hijau';
     const totalBayar=(tarif||0)+(bayarUang||0);
     summary=`<strong>Yang Anda Bayar:</strong><br>`;
     if(bayarUang>0) summary+=`Uang: Rp${bayarUang.toLocaleString('id-ID')}<br>`;
-    if(bayarLimbah>0) summary+=`Limbah hijau: ${bayarLimbah} kg<br>`;
+    if(bayarLimbah>0) summary+=`Limbah hijau: ${bayarLimbah} ${unitLabel}<br>`;
     summary+=`Ongkos kirim: Rp${tarif?tarif.toLocaleString('id-ID'):0}<br>`;
     summary+=`<strong>Total: Rp${totalBayar.toLocaleString('id-ID')}</strong>`;
+
+    const label=document.getElementById('send-beli-jumlah-label');
+    if(label){
+      const unit=p.unit==='L'?'(Liter)':'(kg)';
+      label.textContent=`Jumlah ${unit}`;
+    }
   }
 
   if(summary){
@@ -1558,7 +1670,11 @@ function kirimSampah(){
 
     msg+=`<br><br><strong>Penukaran Limbah</strong><br>Jenis: ${s.name}<br>Berat: ${jumlah} kg<br>Metode: ${metode}`;
     if(bayarUang>0) msg+=`<br>Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}`;
-    if(komposDidapat>0) msg+=`<br>Dapat kompos/POC: ${komposDidapat} kg/L`;
+    if(komposDidapat>0){
+      const unit=selectedSendExchangeProduct==='poc'?'L':'kg';
+      const label=selectedSendExchangeProduct==='poc'?'POC':'Kompos Kering';
+      msg+=`<br>Dapat ${label}: ${komposDidapat} ${unit}`;
+    }
     msg+=`<br><br><strong>Total yang harus dibayar: Rp${tarif?tarif.toLocaleString('id-ID'):0}</strong>`;
   }else if(selectedSendAction==='buy' && selectedSendProduct){
     const p=produkData[selectedSendProduct];
@@ -1619,6 +1735,7 @@ function resetKirimForm(){
   selectedSendAction=null;
   selectedSendWaste=null;
   selectedSendProduct=null;
+  selectedSendExchangeProduct=null;
   const alamat=document.getElementById('alamat');
   const lapakTujuan=document.getElementById('lapak-tujuan');
   const ongkosDisplay=document.getElementById('ongkos-display');
@@ -1841,6 +1958,7 @@ function closeLapakDetail(){
   selectedStallAction=null;
   selectedStallWaste=null;
   selectedStallProduct=null;
+  selectedStallExchangeProduct=null;
 }
 
 function backToStallActions(){
@@ -1850,13 +1968,10 @@ function backToStallActions(){
   selectedStallAction=null;
   selectedStallWaste=null;
   selectedStallProduct=null;
+  selectedStallExchangeProduct=null;
 }
 
 /* ===== STALL ACTIONS ===== */
-let selectedStallAction=null;
-let selectedStallWaste=null;
-let selectedStallProduct=null;
-
 function showStallAction(action){
   selectedStallAction=action;
   document.getElementById('stall-exchange-form').style.display='none';
@@ -1866,6 +1981,7 @@ function showStallAction(action){
   if(action==='exchange'){
     document.getElementById('stall-exchange-form').style.display='block';
     selectedStallWaste=null;
+    selectedStallExchangeProduct=null;
     document.querySelectorAll('#stall-exchange-form .exchange-card').forEach(c=>c.classList.remove('selected'));
     const slider=document.getElementById('stall-tukar-slider');
     slider.value=0;
@@ -1901,6 +2017,14 @@ function selectStallWaste(type){
   updateStallTukar();
 }
 
+function selectStallExchangeProduct(product){
+  selectedStallExchangeProduct=product;
+  document.querySelectorAll('#stall-exchange-form .exchange-product-card').forEach(c=>c.classList.remove('selected'));
+  const card=document.querySelector(`#stall-exchange-form [data-product="${product}"]`);
+  if(card) card.classList.add('selected');
+  updateStallTukar();
+}
+
 function updateStallTukar(){
   if(!selectedStallWaste)return;
   const s=sampahData[selectedStallWaste];
@@ -1922,9 +2046,29 @@ function updateStallTukar(){
   else desc='Campuran: sebagian uang, sebagian kompos/POC';
   document.getElementById('stall-tukar-slider-desc').textContent=desc;
 
+  const productSection=document.getElementById('stall-exchange-product-section');
+  if(productSection){
+    if(komposPersen>0){
+      productSection.style.display='block';
+      if(!selectedStallExchangeProduct){
+        const firstCard=document.querySelector('#stall-exchange-form .exchange-product-card');
+        if(firstCard) firstCard.classList.add('selected');
+        selectedStallExchangeProduct='kompos-kering';
+      }
+    }else{
+      productSection.style.display='none';
+      selectedStallExchangeProduct=null;
+      document.querySelectorAll('#stall-exchange-form .exchange-product-card').forEach(c=>c.classList.remove('selected'));
+    }
+  }
+
   let ringkasan=`Total nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>`;
   if(bayarUang>0) ringkasan+=`Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}<br>`;
-  if(komposDidapat>0) ringkasan+=`Dapat kompos/POC: ${komposDidapat} kg/L`;
+  if(komposDidapat>0){
+    const unit=selectedStallExchangeProduct==='poc'?'L':'kg';
+    const label=selectedStallExchangeProduct==='poc'?'POC':'Kompos Kering';
+    ringkasan+=`Dapat ${label}: ${komposDidapat} ${unit}`;
+  }
   document.getElementById('stall-tukar-ringkasan-text').innerHTML=ringkasan;
 }
 
@@ -1963,11 +2107,18 @@ function updateStallBeli(){
   else desc='Campuran: bayar sebagian uang, sebagian limbah hijau';
   document.getElementById('stall-beli-slider-desc').textContent=desc;
 
+  const unitLabel=p.unit==='L'?'L limbah hijau':'kg limbah hijau';
   let ringkasan='';
   if(bayarUang>0) ringkasan+=`Bayar uang: Rp${bayarUang.toLocaleString('id-ID')}`;
-  if(bayarLimbah>0){if(ringkasan) ringkasan+='<br>';ringkasan+=`Bayar limbah: ${bayarLimbah} kg limbah hijau`;}
+  if(bayarLimbah>0){if(ringkasan) ringkasan+='<br>';ringkasan+=`Bayar limbah: ${bayarLimbah} ${unitLabel}`;}
   if(!ringkasan) ringkasan='Bayar: Rp0';
   document.getElementById('stall-beli-ringkasan-text').innerHTML=ringkasan;
+
+  const label=document.getElementById('stall-beli-jumlah-label');
+  if(label){
+    const unit=p.unit==='L'?'(Liter)':'(kg)';
+    label.textContent=`Jumlah ${unit}`;
+  }
 }
 
 let pendingTransaction=null;
@@ -1993,7 +2144,11 @@ function showConfirmModal(type){
 
     let detail=`Jenis: ${s.name}<br>Berat: ${jumlah} kg<br>Nilai: Rp${totalHarga.toLocaleString('id-ID')}<br>Metode: ${metode}`;
     if(bayarUang>0) detail+=`<br>Dapat uang: Rp${bayarUang.toLocaleString('id-ID')}`;
-    if(komposDidapat>0) detail+=`<br>Dapat kompos/POC: ${komposDidapat} kg/L`;
+    if(komposDidapat>0){
+      const unit=selectedStallExchangeProduct==='poc'?'L':'kg';
+      const label=selectedStallExchangeProduct==='poc'?'POC':'Kompos Kering';
+      detail+=`<br>Dapat ${label}: ${komposDidapat} ${unit}`;
+    }
     detail+=`<br>Lapak: ${selectedStall.name}`;
 
     pendingTransaction={type:'Penukaran Limbah',detail:detail};
